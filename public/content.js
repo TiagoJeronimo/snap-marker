@@ -5,14 +5,14 @@ chrome.runtime.onMessage.addListener((request) => {
       'style',
       'height:100%; width:100%; background: transparent; overflow: hidden; padding: 0;',
     )
-    modal.innerHTML = `<iframe id="headlineFetcher" allow="clipboard-write" style="height:100%; width: 100%"></iframe>
+    modal.innerHTML = `<iframe id="drawshot" allow="clipboard-write" style="height:100%; width: 100%"></iframe>
         <div style="position:absolute; top:0; left:0;">  
             <button>x</button>
         </div>`
     document.body.appendChild(modal)
     const dialog = document.querySelector('dialog')
     dialog.showModal()
-    const iframe = document.getElementById('headlineFetcher')
+    const iframe = document.getElementById('drawshot')
     iframe.src = chrome.extension.getURL('index.html')
     iframe.frameBorder = 0
     dialog.querySelector('button').addEventListener('click', () => {

@@ -15,18 +15,8 @@
   "permissions": [
     "contextMenus",
     "tabs",
-    "desktopCapture",
     "activeTab",
-    "tabs",
-    "storage",
-    "unlimitedStorage",
-    "browsingData",
-    "notifications",
-    "http://*/*",
-    "https://*/*",
-    "file://*/*",
-    "<all_urls>",
-    "background",
+    "desktopCapture",
     "downloads"
   ],
   "web_accessible_resources": ["*.html"]

@@ -1,6 +1,6 @@
 chrome.contextMenus.create({
-  id: 'HeadlineFetcher',
-  title: 'Get Headlines',
+  id: 'Drawshot',
+  title: 'Drawshot',
   contexts: ['all'],
 })
 
