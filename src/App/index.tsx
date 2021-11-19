@@ -1,5 +1,4 @@
 import DrawingArea from '../components/DrawingArea'
-import { useState } from 'react'
 
 import scss from './styles.module.scss'
 import Tools from '../components/Tools'
