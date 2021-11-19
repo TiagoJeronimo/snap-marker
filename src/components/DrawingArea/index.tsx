@@ -1,19 +1,26 @@
 import { Stage, Layer, Line } from 'react-konva'
 import { useState, useRef, useEffect } from 'react'
 import Konva from 'konva'
+import { useDrawingBoard } from '../../context/DrawingBoard'
 
-type Props = {
-  selectedColor: string
-  tool: string
-  cleanAll: boolean
-}
-
-const DrawingArea = ({ selectedColor, tool, cleanAll }: Props) => {
+const DrawingArea = () => {
   const [lines, setLines] = useState<Konva.LineConfig[]>([])
   const isDrawing = useRef(false)
 
+  const { selectedColor, cleanAll, setCleanAll, setTool, tool } =
+    useDrawingBoard()
+
   useEffect(() => {
-    setLines([])
+    if (tool !== 'brush') {
+      setTool('brush')
+    }
+  }, [selectedColor])
+
+  useEffect(() => {
+    if (cleanAll) {
+      setLines([])
+      setCleanAll(false)
+    }
   }, [cleanAll])
 
   const handleMouseDown = (e: Konva.KonvaEventObject<MouseEvent>) => {
