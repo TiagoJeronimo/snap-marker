@@ -1,15 +1,20 @@
 import { Stage, Layer, Line } from 'react-konva'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Konva from 'konva'
 
 type Props = {
   selectedColor: string
+  tool: string
+  cleanAll: boolean
 }
 
-const DrawingArea = ({ selectedColor }: Props) => {
-  const [tool, setTool] = useState('pen')
+const DrawingArea = ({ selectedColor, tool, cleanAll }: Props) => {
   const [lines, setLines] = useState<Konva.LineConfig[]>([])
   const isDrawing = useRef(false)
+
+  useEffect(() => {
+    setLines([])
+  }, [cleanAll])
 
   const handleMouseDown = (e: Konva.KonvaEventObject<MouseEvent>) => {
     isDrawing.current = true
@@ -30,7 +35,7 @@ const DrawingArea = ({ selectedColor }: Props) => {
     if (!point) return
 
     // To draw line
-    let lastLine = lines[lines.length - 1]
+    const lastLine = lines[lines.length - 1]
 
     if (lastLine) {
       // add point
@@ -62,7 +67,7 @@ const DrawingArea = ({ selectedColor }: Props) => {
               key={i}
               points={line.points}
               stroke={line.color}
-              strokeWidth={4}
+              strokeWidth={line.tool === 'eraser' ? 10 : 4}
               tension={0.5}
               lineCap="round"
               globalCompositeOperation={

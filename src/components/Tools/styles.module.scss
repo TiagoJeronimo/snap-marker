@@ -1,0 +1,24 @@
+.tools {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  gap: 8px;
+  padding-top: 8px;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  margin: auto;
+
+  .tools__erase {
+    display: flex;
+    border-radius: 50%;
+    border: 0;
+  }
+
+  .tools__cleanAll {
+    display: flex;
+    border-radius: 50%;
+    border: 0;
+  }
+}
