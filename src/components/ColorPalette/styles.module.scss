@@ -1,0 +1,15 @@
+.colorPalette {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding-top: 8px;
+
+  .colorPalette__color {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+  }
+}

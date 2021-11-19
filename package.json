@@ -6,14 +6,22 @@
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "@types/jest": "^27.0.3",
+    "@types/node": "^16.11.9",
+    "@types/react": "^17.0.35",
+    "@types/react-dom": "^17.0.11",
+    "konva": "^8.3.0",
+    "node-sass": "^6.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-konva": "^17.0.2-5",
     "react-scripts": "4.0.3",
+    "typescript": "^4.5.2",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "INLINE_RUNTIME_CHUNK=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -34,5 +42,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.9.1"
   }
 }
