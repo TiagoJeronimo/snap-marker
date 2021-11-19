@@ -1,10 +1,13 @@
 .colorPalette {
+  position: absolute;
   display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
+  width: fit-content;
   gap: 8px;
   padding-top: 8px;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  margin: auto;
 
   .colorPalette__color {
     width: 32px;
