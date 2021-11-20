@@ -3,24 +3,23 @@ let modal = null
 chrome.runtime.onMessage.addListener((request) => {
   if (request.type === 'draw') {
     if (!modal) {
-      modal = document.createElement('dialog')
-      modal.setAttribute(
-        'style',
-        'height:100%; width:100%; background: transparent; overflow: hidden; padding: 0; margin: 0; max-width: unset; max-height: unset; border: unset;',
-      )
-      modal.innerHTML = `<iframe id="drawshot-iframe" allow="clipboard-write" style="height:100%; width: 100%; border: unset;"></iframe>`
+      modal = document.createElement('iframe')
+      modal.setAttribute('id', 'drawshot-iframe')
+      modal.setAttribute('allow', 'clipboard-write')
 
       document.body.appendChild(modal)
-      const iframe = document.getElementById('drawshot-iframe')
-      iframe.src = chrome.extension.getURL('index.html')
+      modal.src = chrome.extension.getURL('index.html')
     }
 
-    modal.showModal()
+    modal.setAttribute(
+      'style',
+      'position: fixed; top: 0; height:100%; width: 100%; border: unset; z-index: 9999;',
+    )
   }
 
   if (request.action === 'close') {
     if (!modal) return
 
-    modal.close()
+    modal.setAttribute('style', 'display: none;')
   }
 })

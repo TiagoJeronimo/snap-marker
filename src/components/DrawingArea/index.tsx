@@ -3,6 +3,8 @@ import { useState, useRef, useEffect } from 'react'
 import Konva from 'konva'
 import { useDrawingBoard } from '../../context/DrawingBoard'
 
+import scss from './styles.module.scss'
+
 const DrawingArea = () => {
   const [lines, setLines] = useState<Konva.LineConfig[]>([])
   const isDrawing = useRef(false)
@@ -59,14 +61,13 @@ const DrawingArea = () => {
   }
 
   return (
-    <div className=" text-center text-dark">
+    <div className={scss['drawingArea']}>
       <Stage
         width={window.innerWidth}
         height={window.innerHeight}
         onMouseDown={handleMouseDown}
         onMousemove={handleMouseMove}
         onMouseup={handleMouseUp}
-        className="canvas-stage"
       >
         <Layer>
           {lines.map((line, i) => (
