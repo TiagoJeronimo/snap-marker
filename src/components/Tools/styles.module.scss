@@ -10,15 +10,13 @@
   right: 0;
   margin: auto;
 
-  .tools__erase {
+  .tools__image {
     display: flex;
     border-radius: 50%;
     border: 0;
-  }
-
-  .tools__cleanAll {
-    display: flex;
-    border-radius: 50%;
-    border: 0;
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
   }
 }

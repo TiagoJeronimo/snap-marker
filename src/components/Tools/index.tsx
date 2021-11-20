@@ -1,7 +1,7 @@
 import ColorPalette from '../ColorPalette'
 import scss from './styles.module.scss'
 
-import eraser from '../../assets/eraser.svg'
+import eraser from '../../assets/noun_eraser.svg'
 import cleanAll from '../../assets/cleanAll.svg'
 import { useDrawingBoard } from '../../context/DrawingBoard'
 
@@ -41,21 +41,21 @@ const Tools = () => {
 
   return (
     <div className={scss['tools']}>
-      <button className={scss['tools__erase']} onClick={handleScree}>
-        <img src={eraser} width={38} height={38} />
+      <button className={scss['tools__image']} onClick={handleScree}>
+        <img src={eraser} width={24} height={24} />
       </button>
       <ColorPalette />
       <button
-        className={scss['tools__erase']}
+        className={scss['tools__image']}
         onClick={() => setTool('eraser')}
       >
-        <img src={eraser} width={38} height={38} />
+        <img src={eraser} width={24} height={24} />
       </button>
       <button
-        className={scss['tools__cleanAll']}
+        className={scss['tools__image']}
         onClick={() => setCleanAll(true)}
       >
-        <img src={cleanAll} width={38} height={38} />
+        <img src={cleanAll} width={24} height={24} />
       </button>
     </div>
   )
