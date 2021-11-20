@@ -1,12 +1,30 @@
 import ColorPalette from '../ColorPalette'
 import scss from './styles.module.scss'
 
-import eraser from '../../assets/noun_eraser.svg'
-import cleanAll from '../../assets/cleanAll.svg'
+import eraser from '../../assets/eraser.svg'
+import cleanAll from '../../assets/trash.svg'
+import download from '../../assets/download.svg'
 import { useDrawingBoard } from '../../context/DrawingBoard'
+import { useEffect } from 'react'
 
 const Tools = () => {
-  const { setTool, setCleanAll } = useDrawingBoard()
+  const { tool, setTool, setCleanAll } = useDrawingBoard()
+
+  useEffect(() => {
+    if (tool === 'eraser') {
+      document.addEventListener('mousemove', (event) => {
+        const ev = event || window.event
+
+        const eraserCircle = document.getElementById('eraserCircle')
+        if (!eraserCircle) return
+
+        eraserCircle.setAttribute(
+          'style',
+          `top: ${ev.clientY}px; left: ${ev.clientX}px`,
+        )
+      })
+    }
+  }, [tool])
 
   const handleScree = () => {
     chrome.tabs.captureVisibleTab(
@@ -40,24 +58,29 @@ const Tools = () => {
   }
 
   return (
-    <div className={scss['tools']}>
-      <button className={scss['tools__image']} onClick={handleScree}>
-        <img src={eraser} width={24} height={24} />
-      </button>
-      <ColorPalette />
-      <button
-        className={scss['tools__image']}
-        onClick={() => setTool('eraser')}
-      >
-        <img src={eraser} width={24} height={24} />
-      </button>
-      <button
-        className={scss['tools__image']}
-        onClick={() => setCleanAll(true)}
-      >
-        <img src={cleanAll} width={24} height={24} />
-      </button>
-    </div>
+    <>
+      <div className={scss['tools']}>
+        <button className={scss['tools__button']} onClick={handleScree}>
+          <img src={download} width={21} height={21} />
+        </button>
+        <ColorPalette />
+        <button
+          className={scss['tools__button']}
+          onClick={() => setTool('eraser')}
+        >
+          <img src={eraser} width={21} height={21} />
+        </button>
+        <button
+          className={scss['tools__button']}
+          onClick={() => setCleanAll(true)}
+        >
+          <img src={cleanAll} width={24} height={24} />
+        </button>
+      </div>
+      {tool === 'eraser' && (
+        <div id="eraserCircle" className={scss['tools__eraserCircle']} />
+      )}
+    </>
   )
 }
 

@@ -14,7 +14,7 @@ const CloseButton = () => {
 
   return (
     <button className={scss['closeButton']} onClick={handleCloseButton}>
-      <img src={close} width={32} height={32} />
+      <img src={close} width={24} height={24} />
     </button>
   )
 }

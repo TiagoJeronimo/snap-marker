@@ -74,7 +74,7 @@ const DrawingArea = () => {
               key={i}
               points={line.points}
               stroke={line.color}
-              strokeWidth={line.tool === 'eraser' ? 20 : 4}
+              strokeWidth={line.tool === 'eraser' ? 40 : 4}
               tension={0.5}
               lineCap="round"
               globalCompositeOperation={

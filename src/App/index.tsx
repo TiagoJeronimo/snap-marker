@@ -5,16 +5,14 @@ import Tools from '../components/Tools'
 import { DrawingBoardProvider } from '../context/DrawingBoard'
 import CloseButton from '../components/CloseButton'
 
-const App = () => {
-  return (
-    <DrawingBoardProvider>
-      <div className={scss['app']}>
-        <Tools />
-        <CloseButton />
-        <DrawingArea />
-      </div>
-    </DrawingBoardProvider>
-  )
-}
+const App = () => (
+  <DrawingBoardProvider>
+    <div className={scss['app']}>
+      <Tools />
+      <CloseButton />
+      <DrawingArea />
+    </div>
+  </DrawingBoardProvider>
+)
 
 export default App
