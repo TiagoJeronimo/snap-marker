@@ -4,8 +4,10 @@ chrome.contextMenus.create({
   contexts: ['all'],
 })
 
-chrome.contextMenus.onClicked.addListener(() => {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    chrome.tabs.sendMessage(tabs[0].id, { type: 'draw' })
-  })
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+  chrome.tabs.sendMessage(tab.id, { type: 'draw' })
+})
+
+chrome.browserAction.onClicked.addListener((tab) => {
+  chrome.tabs.sendMessage(tab.id, { type: 'draw' })
 })

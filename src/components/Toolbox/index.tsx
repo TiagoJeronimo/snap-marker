@@ -65,14 +65,32 @@ const Toolbox = () => {
     <>
       <div className={scss['toolbox']} data-testid="toolbox">
         <Button onClick={handleDownload}>
-          <img alt="download" src={download} width={21} height={21} />
+          <img
+            alt="download"
+            src={download}
+            width={21}
+            height={21}
+            draggable="false"
+          />
         </Button>
         <ColorPalette />
         <Button onClick={() => setTool(Tools.ERASER)}>
-          <img alt="eraser" src={eraser} width={21} height={21} />
+          <img
+            alt="eraser"
+            src={eraser}
+            width={21}
+            height={21}
+            draggable="false"
+          />
         </Button>
         <Button onClick={() => setCleanAll(true)}>
-          <img alt="trash" src={cleanAll} width={24} height={24} />
+          <img
+            alt="trash"
+            src={cleanAll}
+            width={24}
+            height={24}
+            draggable="false"
+          />
         </Button>
       </div>
       {tool === Tools.ERASER && (

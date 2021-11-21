@@ -1,7 +1,7 @@
 {
   "name": "Drawshot",
   "manifest_version": 2,
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Page painter",
   "content_scripts": [
     {
@@ -12,12 +12,7 @@
   "background": {
     "scripts": ["background.js"]
   },
-  "permissions": [
-    "contextMenus",
-    "tabs",
-    "activeTab",
-    "desktopCapture",
-    "downloads"
-  ],
+  "browser_action": {},
+  "permissions": ["contextMenus", "activeTab", "desktopCapture", "downloads"],
   "web_accessible_resources": ["*.html"]
 }

@@ -22,7 +22,7 @@ const CloseButton = () => {
   return (
     <div className={scss['closeButton']} data-testid="closeButton">
       <Button onClick={handleCloseButton}>
-        <img alt="close" src={close} width={24} height={24} />
+        <img alt="close" src={close} width={24} height={24} draggable="false" />
       </Button>
     </div>
   )
