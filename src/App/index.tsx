@@ -1,9 +1,9 @@
 import DrawingArea from '../components/DrawingArea'
+import Toolbox from '../components/Toolbox'
+import CloseButton from '../components/CloseButton'
+import { DrawingBoardProvider } from '../context/DrawingBoard'
 
 import scss from './styles.module.scss'
-import Toolbox from '../components/Toolbox'
-import { DrawingBoardProvider } from '../context/DrawingBoard'
-import CloseButton from '../components/CloseButton'
 
 const App = () => (
   <DrawingBoardProvider>

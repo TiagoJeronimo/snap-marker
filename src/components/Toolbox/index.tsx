@@ -1,85 +1,81 @@
-import ColorPalette from './ColorPalette'
-import scss from './styles.module.scss'
+import { useEffect } from 'react'
 
 import eraser from '../../assets/eraser.svg'
 import cleanAll from '../../assets/trash.svg'
 import download from '../../assets/download.svg'
-import { useDrawingBoard } from '../../context/DrawingBoard'
-import { useEffect } from 'react'
 
+import { useDrawingBoard } from '../../context/DrawingBoard'
 import Tools from '../../enums/Tools'
+import ColorPalette from './ColorPalette'
+
+import scss from './styles.module.scss'
+import Button from '../Button'
 
 const Toolbox = () => {
-  const { tool, setTool, setCleanAll } = useDrawingBoard()
+  const { tool, setTool, setCleanAll, setHideInterface, hideInterface } =
+    useDrawingBoard()
 
   useEffect(() => {
     if (tool === Tools.ERASER) {
       document.addEventListener('mousemove', (event) => {
-        const ev = event || window.event
-
         const eraserCircle = document.getElementById('eraserCircle')
         if (!eraserCircle) return
 
         eraserCircle.setAttribute(
           'style',
-          `top: ${ev.clientY}px; left: ${ev.clientX}px`,
+          `top: ${event.clientY}px; left: ${event.clientX}px`,
         )
       })
     }
   }, [tool])
 
-  const handleScree = () => {
+  const handleDownload = () => {
+    setHideInterface(true)
+
     chrome.tabs.captureVisibleTab(
       null as unknown as number,
       { format: 'png' },
-      async function (image) {
-        const data = await fetch(image)
-        const blob = await data.blob()
+      async (image) => {
+        try {
+          const data = await fetch(image)
+          const blob = await data.blob()
 
-        console.log('data', data)
-        console.log('blob', blob)
+          await navigator.clipboard.write([
+            new ClipboardItem({
+              'image/png': blob,
+            }),
+          ])
 
-        const text = new Blob(['screenshot'], { type: 'text/plain' })
-        const item = new ClipboardItem({
-          'text/plain': text,
-          'image/png': blob,
-        })
-        await navigator.clipboard.write([item])
-
-        chrome.downloads.download(
-          {
+          chrome.downloads.download({
             filename: 'screenshot.png',
             url: image,
-          },
-          (downloadId) => {
-            console.log('ID', downloadId)
-          },
-        )
+          })
+        } catch (error) {
+          console.error(error)
+        } finally {
+          setHideInterface(false)
+        }
       },
     )
   }
 
+  if (hideInterface) return null
+
   return (
     <>
-      <div className={scss['toolbox']}>
-        <button className={scss['toolbox__button']} onClick={handleScree}>
-          <img src={download} width={21} height={21} />
-        </button>
+      <div className={scss['toolbox']} data-testid="toolbox">
+        <Button onClick={handleDownload}>
+          <img alt="download" src={download} width={21} height={21} />
+        </Button>
         <ColorPalette />
-        <button
-          className={scss['toolbox__button']}
-          onClick={() => setTool(Tools.ERASER)}
-        >
-          <img src={eraser} width={21} height={21} />
-        </button>
-        <button
-          className={scss['toolbox__button']}
-          onClick={() => setCleanAll(true)}
-        >
-          <img src={cleanAll} width={24} height={24} />
-        </button>
+        <Button onClick={() => setTool(Tools.ERASER)}>
+          <img alt="eraser" src={eraser} width={21} height={21} />
+        </Button>
+        <Button onClick={() => setCleanAll(true)}>
+          <img alt="trash" src={cleanAll} width={24} height={24} />
+        </Button>
       </div>
-      {tool === 'eraser' && (
+      {tool === Tools.ERASER && (
         <div id="eraserCircle" className={scss['toolbox__eraserCircle']} />
       )}
     </>

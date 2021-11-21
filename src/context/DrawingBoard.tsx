@@ -15,6 +15,8 @@ type Context = {
   setTool: Dispatch<SetStateAction<Tools>>
   cleanAll: boolean
   setCleanAll: Dispatch<SetStateAction<boolean>>
+  hideInterface: boolean
+  setHideInterface: Dispatch<SetStateAction<boolean>>
 }
 
 const DrawingBoard = createContext<Context | undefined>(undefined)
@@ -23,6 +25,7 @@ export const DrawingBoardProvider: FC = ({ children }) => {
   const [selectedColor, setSelectedColor] = useState('#ff595e')
   const [tool, setTool] = useState<Tools>(Tools.BRUSH)
   const [cleanAll, setCleanAll] = useState(false)
+  const [hideInterface, setHideInterface] = useState(false)
 
   return (
     <DrawingBoard.Provider
@@ -33,6 +36,8 @@ export const DrawingBoardProvider: FC = ({ children }) => {
         setTool,
         cleanAll,
         setCleanAll,
+        hideInterface,
+        setHideInterface,
       }}
     >
       {children}

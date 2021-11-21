@@ -1,15 +1,7 @@
 .closeButton {
   position: absolute;
-  display: flex;
   left: 0;
   top: 0;
   z-index: 1;
   margin: 8px;
-  border: none;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
 }
