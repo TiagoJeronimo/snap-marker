@@ -6,14 +6,13 @@ import {
   useContext,
   useState,
 } from 'react'
-
-type Tool = 'brush' | 'eraser'
+import Tools from '../enums/Tools'
 
 type Context = {
   selectedColor: string
   setSelectedColor: Dispatch<SetStateAction<string>>
-  tool: Tool
-  setTool: Dispatch<SetStateAction<Tool>>
+  tool: Tools
+  setTool: Dispatch<SetStateAction<Tools>>
   cleanAll: boolean
   setCleanAll: Dispatch<SetStateAction<boolean>>
 }
@@ -22,7 +21,7 @@ const DrawingBoard = createContext<Context | undefined>(undefined)
 
 export const DrawingBoardProvider: FC = ({ children }) => {
   const [selectedColor, setSelectedColor] = useState('#ff595e')
-  const [tool, setTool] = useState<Tool>('brush')
+  const [tool, setTool] = useState<Tools>(Tools.BRUSH)
   const [cleanAll, setCleanAll] = useState(false)
 
   return (

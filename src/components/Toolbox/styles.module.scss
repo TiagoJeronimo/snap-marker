@@ -1,4 +1,4 @@
-.tools {
+.toolbox {
   position: absolute;
   display: flex;
   align-items: center;
@@ -10,7 +10,7 @@
   right: 0;
   margin: auto;
 
-  .tools__button {
+  .toolbox__button {
     display: flex;
     border-radius: 50%;
     border: 0;
@@ -22,7 +22,7 @@
   }
 }
 
-.tools__eraserCircle {
+.toolbox__eraserCircle {
   position: absolute;
   width: 40px;
   height: 40px;

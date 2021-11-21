@@ -1,10 +1,16 @@
-import { useDrawingBoard } from '../../context/DrawingBoard'
+import { useDrawingBoard } from '../../../context/DrawingBoard'
+import Tools from '../../../enums/Tools'
 import scss from './styles.module.scss'
 
 const colors = ['#ff595e', '#ffca3a', '#8ac926', '#1982c4', '#000']
 
 const ColorPalette = () => {
-  const { setSelectedColor } = useDrawingBoard()
+  const { setSelectedColor, setTool } = useDrawingBoard()
+
+  const handleSelectColor = (color: string) => {
+    setTool(Tools.BRUSH)
+    setSelectedColor(color)
+  }
 
   return (
     <div className={scss['colorPalette']}>
@@ -13,7 +19,7 @@ const ColorPalette = () => {
           key={color}
           className={scss['colorPalette__color']}
           style={{ backgroundColor: color }}
-          onClick={() => setSelectedColor(color)}
+          onClick={() => handleSelectColor(color)}
         />
       ))}
     </div>

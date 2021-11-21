@@ -4,19 +4,13 @@ import Konva from 'konva'
 import { useDrawingBoard } from '../../context/DrawingBoard'
 
 import scss from './styles.module.scss'
+import Tools from '../../enums/Tools'
 
 const DrawingArea = () => {
   const [lines, setLines] = useState<Konva.LineConfig[]>([])
   const isDrawing = useRef(false)
 
-  const { selectedColor, cleanAll, setCleanAll, setTool, tool } =
-    useDrawingBoard()
-
-  useEffect(() => {
-    if (tool !== 'brush') {
-      setTool('brush')
-    }
-  }, [selectedColor])
+  const { selectedColor, cleanAll, setCleanAll, tool } = useDrawingBoard()
 
   useEffect(() => {
     if (cleanAll) {
@@ -75,11 +69,11 @@ const DrawingArea = () => {
               key={i}
               points={line.points}
               stroke={line.color}
-              strokeWidth={line.tool === 'eraser' ? 40 : 4}
+              strokeWidth={line.tool === Tools.ERASER ? 40 : 4}
               tension={0.5}
               lineCap="round"
               globalCompositeOperation={
-                line.tool === 'eraser' ? 'destination-out' : 'source-over'
+                line.tool === Tools.ERASER ? 'destination-out' : 'source-over'
               }
             />
           ))}

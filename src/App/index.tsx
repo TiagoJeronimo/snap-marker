@@ -1,15 +1,15 @@
 import DrawingArea from '../components/DrawingArea'
 
 import scss from './styles.module.scss'
-import Tools from '../components/Tools'
+import Toolbox from '../components/Toolbox'
 import { DrawingBoardProvider } from '../context/DrawingBoard'
 import CloseButton from '../components/CloseButton'
 
 const App = () => (
   <DrawingBoardProvider>
     <div className={scss['app']}>
-      <Tools />
       <CloseButton />
+      <Toolbox />
       <DrawingArea />
     </div>
   </DrawingBoardProvider>
