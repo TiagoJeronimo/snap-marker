@@ -1,7 +1,9 @@
-chrome.contextMenus.create({
-  id: 'Drawshot',
-  title: 'Drawshot',
-  contexts: ['all'],
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.contextMenus.create({
+    id: 'Drawshot',
+    title: 'Drawshot',
+    contexts: ['all'],
+  })
 })
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
