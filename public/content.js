@@ -1,14 +1,14 @@
-let modal = null
+chrome.runtime.onMessage.addListener(({ type, action }) => {
+  let modal = document.getElementById('drawshot-iframe')
 
-chrome.runtime.onMessage.addListener((request) => {
-  if (request.type === 'draw') {
+  if (type === 'draw') {
     if (!modal) {
       modal = document.createElement('iframe')
       modal.setAttribute('id', 'drawshot-iframe')
       modal.setAttribute('allow', 'clipboard-write')
 
       document.body.appendChild(modal)
-      modal.src = chrome.extension.getURL('index.html')
+      modal.src = chrome.runtime.getURL('index.html')
     }
 
     modal.setAttribute(
@@ -17,9 +17,9 @@ chrome.runtime.onMessage.addListener((request) => {
     )
   }
 
-  if (request.action === 'close') {
+  if (action === 'close') {
     if (!modal) return
 
-    modal.setAttribute('style', 'display: none;')
+    modal.remove()
   }
 })
