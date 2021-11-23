@@ -13,6 +13,9 @@
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
   box-shadow: rgb(0 0 0 / 24%) 0 3px 8px;
+  top: -44px;
+  animation: move-animation ease 0.4s;
+  animation-fill-mode: forwards;
 }
 
 .toolbox__eraserCircle {
@@ -22,4 +25,14 @@
   transform: translate(-50%, -50%);
   border: 3px solid black;
   border-radius: 50%;
+}
+
+@keyframes move-animation {
+  0% {
+    top: -44px;
+  }
+
+  100% {
+    top: 0;
+  }
 }

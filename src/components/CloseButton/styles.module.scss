@@ -1,7 +1,6 @@
 .closeButton {
   position: absolute;
   left: 0;
-  top: 0;
   z-index: 1;
   margin-left: 8px;
   background-color: white;
@@ -9,4 +8,17 @@
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
   box-shadow: rgb(0 0 0 / 24%) 0 3px 8px;
+  top: -44px;
+  animation: move-animation ease 0.4s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes move-animation {
+  0% {
+    top: -44px;
+  }
+
+  100% {
+    top: 0;
+  }
 }
