@@ -3,5 +3,10 @@
   left: 0;
   top: 0;
   z-index: 1;
-  margin: 8px;
+  margin-left: 8px;
+  background-color: white;
+  padding: 6px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  box-shadow: rgb(0 0 0 / 24%) 0 3px 8px;
 }
