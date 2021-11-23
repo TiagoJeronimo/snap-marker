@@ -12,10 +12,40 @@ const ERASER_WIDTH = 40
 
 const DrawingArea = () => {
   const [lines, setLines] = useState<Konva.LineConfig[]>([])
+
+  const undoHistory = useRef(false)
   const isDrawing = useRef(false)
 
   const { selectedColor, cleanAll, setCleanAll, tool, hideInterface } =
     useDrawingBoard()
+
+  useEffect(() => {
+    document.addEventListener('keydown', (event) => {
+      if (event.keyCode === 90 && event.ctrlKey) {
+        if (undoHistory.current) {
+          return
+        }
+
+        undoHistory.current = true
+        console.log('AQUIIII')
+      }
+    })
+  }, [])
+
+  console.log('undoHistory.current', undoHistory.current)
+
+  useEffect(() => {
+    console.log('1111', undoHistory.current)
+    if (undoHistory.current) {
+      undoHistory.current = false
+      const linesHistory = lines
+      console.log('lines', lines)
+      linesHistory.pop()
+      console.log('linesHistory', linesHistory)
+
+      setLines([...linesHistory])
+    }
+  }, [undoHistory.current])
 
   useEffect(() => {
     if (cleanAll) {
