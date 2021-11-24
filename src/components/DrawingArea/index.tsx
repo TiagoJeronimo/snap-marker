@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Stage, Layer, Line } from 'react-konva'
 import Konva from 'konva'
 
@@ -12,40 +12,55 @@ const ERASER_WIDTH = 40
 
 const DrawingArea = () => {
   const [lines, setLines] = useState<Konva.LineConfig[]>([])
+  const [removedLines, setRemovedLines] = useState<Konva.LineConfig[]>([])
+  const [undo, setUndo] = useState(false)
+  const [redo, setRedo] = useState(false)
 
-  const undoHistory = useRef(false)
   const isDrawing = useRef(false)
 
   const { selectedColor, cleanAll, setCleanAll, tool, hideInterface } =
     useDrawingBoard()
 
   useEffect(() => {
-    document.addEventListener('keydown', (event) => {
-      if (event.keyCode === 90 && event.ctrlKey) {
-        if (undoHistory.current) {
-          return
-        }
-
-        undoHistory.current = true
-        console.log('AQUIIII')
+    const keyPressedHandler = (event: KeyboardEvent) => {
+      if (
+        (event.metaKey && event.shiftKey && event.key === 'z') ||
+        (event.ctrlKey && event.key === 'y')
+      ) {
+        setRedo((prevState) => !prevState)
+      } else if ((event.ctrlKey || event.metaKey) && event.key === 'z') {
+        setUndo((prevState) => !prevState)
       }
-    })
+    }
+
+    window.addEventListener('keydown', keyPressedHandler)
+    return () => window.removeEventListener('keydown', keyPressedHandler)
   }, [])
 
-  console.log('undoHistory.current', undoHistory.current)
-
   useEffect(() => {
-    console.log('1111', undoHistory.current)
-    if (undoHistory.current) {
-      undoHistory.current = false
-      const linesHistory = lines
-      console.log('lines', lines)
-      linesHistory.pop()
-      console.log('linesHistory', linesHistory)
+    if (undo) {
+      setUndo(false)
 
+      const linesHistory = lines
+      const removedLine = linesHistory.pop()
+      if (!removedLine) return
+
+      setRemovedLines([removedLine, ...removedLines])
       setLines([...linesHistory])
     }
-  }, [undoHistory.current])
+  }, [undo])
+
+  useEffect(() => {
+    if (redo) {
+      setRedo(false)
+
+      const removedLinesHistory = removedLines
+      const removedLine = removedLinesHistory.shift()
+      if (!removedLine) return
+
+      setLines([...lines, removedLine])
+    }
+  }, [redo])
 
   useEffect(() => {
     if (cleanAll) {
@@ -96,8 +111,8 @@ const DrawingArea = () => {
         width={window.innerWidth}
         height={window.innerHeight}
         onMouseDown={handleMouseDown}
-        onMousemove={handleMouseMove}
-        onMouseup={handleMouseUp}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
       >
         <Layer>
           {lines.map((line, i) => (
