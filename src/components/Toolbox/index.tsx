@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useRef, useEffect } from 'react'
 
 import eraser from '../../assets/eraser.svg'
 import cleanAll from '../../assets/trash.svg'
@@ -15,18 +15,20 @@ const Toolbox = () => {
   const { tool, setTool, setCleanAll, setHideInterface, hideInterface } =
     useDrawingBoard()
 
-  useEffect(() => {
-    if (tool === Tools.ERASER) {
-      document.addEventListener('mousemove', (event) => {
-        const eraserCircle = document.getElementById('eraserCircle')
-        if (!eraserCircle) return
+  const eraserCircle = useRef<HTMLDivElement>(null)
 
-        eraserCircle.setAttribute(
-          'style',
-          `top: ${event.clientY}px; left: ${event.clientX}px`,
-        )
-      })
+  useEffect(() => {
+    const handleEraserPosition = (event: MouseEvent) => {
+      if (tool !== Tools.ERASER || !eraserCircle.current) return
+
+      eraserCircle.current.setAttribute(
+        'style',
+        `top: ${event.clientY}px; left: ${event.clientX}px`,
+      )
     }
+
+    window.addEventListener('mousemove', handleEraserPosition)
+    return () => window.removeEventListener('mousemove', handleEraserPosition)
   }, [tool])
 
   useEffect(() => {
@@ -94,7 +96,7 @@ const Toolbox = () => {
         </Button>
       </div>
       {tool === Tools.ERASER && (
-        <div id="eraserCircle" className={scss['toolbox__eraserCircle']} />
+        <div ref={eraserCircle} className={scss['toolbox__eraserCircle']} />
       )}
     </>
   )

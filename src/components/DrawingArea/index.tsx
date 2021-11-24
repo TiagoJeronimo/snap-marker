@@ -22,7 +22,7 @@ const DrawingArea = () => {
     useDrawingBoard()
 
   useEffect(() => {
-    const keyPressedHandler = (event: KeyboardEvent) => {
+    const handleKeyPressed = (event: KeyboardEvent) => {
       if (
         (event.metaKey && event.shiftKey && event.key === 'z') ||
         (event.ctrlKey && event.key === 'y')
@@ -33,8 +33,8 @@ const DrawingArea = () => {
       }
     }
 
-    window.addEventListener('keydown', keyPressedHandler)
-    return () => window.removeEventListener('keydown', keyPressedHandler)
+    window.addEventListener('keydown', handleKeyPressed)
+    return () => window.removeEventListener('keydown', handleKeyPressed)
   }, [])
 
   useEffect(() => {
