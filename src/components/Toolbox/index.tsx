@@ -29,8 +29,8 @@ const Toolbox = () => {
     }
   }, [tool])
 
-  const handleDownload = () => {
-    setHideInterface(true)
+  useEffect(() => {
+    if (!hideInterface) return
 
     chrome.tabs.captureVisibleTab(
       null as unknown as number,
@@ -57,14 +57,14 @@ const Toolbox = () => {
         }
       },
     )
-  }
+  }, [hideInterface])
 
   if (hideInterface) return null
 
   return (
     <>
       <div className={scss['toolbox']} data-testid="toolbox">
-        <Button onClick={handleDownload}>
+        <Button onClick={() => setHideInterface(true)}>
           <img
             alt="download"
             src={download}
