@@ -27,9 +27,9 @@ const DrawingArea = () => {
         (event.metaKey && event.shiftKey && event.key === 'z') ||
         (event.ctrlKey && event.key === 'y')
       ) {
-        setRedo((prevState) => !prevState)
+        setRedo(true)
       } else if ((event.ctrlKey || event.metaKey) && event.key === 'z') {
-        setUndo((prevState) => !prevState)
+        setUndo(true)
       }
     }
 
