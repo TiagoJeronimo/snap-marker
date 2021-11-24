@@ -2,7 +2,7 @@
   "name": "Drawshot",
   "manifest_version": 3,
   "version": "1.0.0",
-  "description": "Draw, screenshot, download, as simple as that!",
+  "description": "Draw, capture, download, as simple as that!",
   "icons": { "16": "icon16.png", "48": "icon48.png", "128": "icon128.png" },
   "content_scripts": [
     {
