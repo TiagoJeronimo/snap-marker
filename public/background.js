@@ -1,7 +1,7 @@
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
-    id: 'Drawshot',
-    title: 'Drawshot',
+    id: 'snap-marker',
+    title: 'Snap Marker',
     contexts: ['all'],
   })
 })
