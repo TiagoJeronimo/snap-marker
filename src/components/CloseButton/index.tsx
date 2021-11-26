@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import close from '../../assets/close.svg'
 
 import { useDrawingBoard } from '../../context/DrawingBoard'
@@ -7,6 +8,17 @@ import scss from './styles.module.scss'
 
 const CloseButton = () => {
   const { hideInterface } = useDrawingBoard()
+
+  useEffect(() => {
+    const handleKeyPressed = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        handleCloseButton()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyPressed)
+    return () => window.removeEventListener('keydown', handleKeyPressed)
+  }, [])
 
   const handleCloseButton = () => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
