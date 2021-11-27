@@ -16,10 +16,29 @@ const DrawingArea = () => {
   const [undo, setUndo] = useState(false)
   const [redo, setRedo] = useState(false)
 
+  const [height, setHeight] = useState(0)
+
   const isDrawing = useRef(false)
 
   const { selectedColor, cleanAll, setCleanAll, tool, hideInterface } =
     useDrawingBoard()
+
+  // useEffect(() => {
+  //   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+  //     const tab = tabs[0]
+  //     if (!tab) return
+
+  //     chrome.tabs.sendMessage(
+  //       tab.id || 0,
+  //       { action: 'height' },
+  //       {},
+  //       (response) => {
+  //         setHeight(response)
+  //         console.log('response', response)
+  //       },
+  //     )
+  //   })
+  // }, [])
 
   useEffect(() => {
     const handleKeyPressed = (event: KeyboardEvent) => {
@@ -107,9 +126,11 @@ const DrawingArea = () => {
       className={hideInterface ? '' : scss['drawingArea']}
       data-testid="drawingArea"
     >
+      {console.log('height', height)}
       <Stage
         width={window.innerWidth}
-        height={window.innerHeight}
+        // height={height || window.innerHeight}
+        height={2000}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}

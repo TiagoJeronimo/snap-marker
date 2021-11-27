@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 
 import eraser from '../../assets/eraser.svg'
 import cleanAll from '../../assets/trash.svg'
