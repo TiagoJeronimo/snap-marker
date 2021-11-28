@@ -1,5 +1,5 @@
 chrome.runtime.onMessage.addListener(({ type, action }) => {
-  let modal = document.getElementById('drawshot-iframe')
+  let modal = document.getElementById('snap-marker-iframe')
   let setInitialPositionTimeout = null
 
   const sendScrollPosition = () => {
@@ -11,7 +11,7 @@ chrome.runtime.onMessage.addListener(({ type, action }) => {
   if (type === 'draw') {
     if (!modal) {
       modal = document.createElement('iframe')
-      modal.setAttribute('id', 'drawshot-iframe')
+      modal.setAttribute('id', 'snap-marker-iframe')
       modal.setAttribute('allow', 'clipboard-write')
 
       document.body.appendChild(modal)
@@ -25,7 +25,7 @@ chrome.runtime.onMessage.addListener(({ type, action }) => {
       `position: absolute; top: 0; height:${document.body.scrollHeight}px; width: 100%; border: unset; z-index: 9999;`,
     )
 
-    setInitialPositionTimeout = setTimeout(sendScrollPosition, 200)
+    setInitialPositionTimeout = setTimeout(sendScrollPosition, 100)
   }
 
   if (action === 'close') {

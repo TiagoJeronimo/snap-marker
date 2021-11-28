@@ -5,6 +5,8 @@ import Konva from 'konva'
 import { useDrawingBoard } from '../../context/DrawingBoard'
 import Tools from '../../enums/Tools'
 
+Konva.pixelRatio = 1
+
 const BRUSH_WIDTH = 6
 const ERASER_WIDTH = 40
 
@@ -109,9 +111,9 @@ const DrawingArea = () => {
       data-testid="drawingArea"
     >
       <Layer>
-        {lines.map((line, i) => (
+        {lines.map((line, index) => (
           <Line
-            key={i}
+            key={index}
             points={line.points}
             stroke={line.color}
             strokeWidth={

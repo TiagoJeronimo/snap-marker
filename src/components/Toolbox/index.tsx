@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import debounce from 'debounce'
 
 import eraser from '../../assets/eraser.svg'
@@ -11,10 +11,11 @@ import ColorPalette from './ColorPalette'
 
 import scss from './styles.module.scss'
 import Button from '../Button'
+import CloseButton from './CloseButton'
 
 const Toolbox = () => {
-  const { tool, setTool, setCleanAll, setHideInterface, hideInterface } =
-    useDrawingBoard()
+  const [hideInterface, setHideInterface] = useState(false)
+  const { tool, setTool, setCleanAll } = useDrawingBoard()
 
   const toolbox = useRef<HTMLDivElement>(null)
   const eraserCircle = useRef<HTMLDivElement>(null)
@@ -36,8 +37,10 @@ const Toolbox = () => {
   }, [])
 
   useEffect(() => {
+    if (tool !== Tools.ERASER) return
+
     const handleEraserPosition = (event: MouseEvent) => {
-      if (tool !== Tools.ERASER || !eraserCircle.current) return
+      if (!eraserCircle.current) return
 
       eraserCircle.current.style.top = `${event.clientY}px`
       eraserCircle.current.style.left = `${event.clientX}px`
@@ -81,39 +84,42 @@ const Toolbox = () => {
     <>
       <div
         className={!hideInterface ? scss['toolbox'] : scss['toolbox-hide']}
-        data-testid="toolbox"
         ref={toolbox}
+        data-testid="toolbox"
       >
-        <Button onClick={() => setHideInterface(true)}>
-          <img
-            alt="download"
-            src={download}
-            width={21}
-            height={21}
-            draggable="false"
-          />
-        </Button>
-        <ColorPalette />
-        <Button onClick={() => setTool(Tools.ERASER)}>
-          <img
-            alt="eraser"
-            src={eraser}
-            width={21}
-            height={21}
-            draggable="false"
-          />
-        </Button>
-        <Button onClick={() => setCleanAll(true)}>
-          <img
-            alt="trash"
-            src={cleanAll}
-            width={24}
-            height={24}
-            draggable="false"
-          />
-        </Button>
+        <CloseButton />
+        <div className={scss['toolbox__tools']}>
+          <Button onClick={() => setHideInterface(true)}>
+            <img
+              alt="download"
+              src={download}
+              width={21}
+              height={21}
+              draggable="false"
+            />
+          </Button>
+          <ColorPalette />
+          <Button onClick={() => setTool(Tools.ERASER)}>
+            <img
+              alt="eraser"
+              src={eraser}
+              width={21}
+              height={21}
+              draggable="false"
+            />
+          </Button>
+          <Button onClick={() => setCleanAll(true)}>
+            <img
+              alt="trash"
+              src={cleanAll}
+              width={24}
+              height={24}
+              draggable="false"
+            />
+          </Button>
+        </div>
       </div>
-      {tool === Tools.ERASER && (
+      {tool === Tools.ERASER && !hideInterface && (
         <div ref={eraserCircle} className={scss['toolbox__eraserCircle']} />
       )}
     </>

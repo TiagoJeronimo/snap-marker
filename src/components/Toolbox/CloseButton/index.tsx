@@ -1,14 +1,11 @@
 import { useEffect } from 'react'
-import close from '../../assets/close.svg'
 
-import { useDrawingBoard } from '../../context/DrawingBoard'
-import Button from '../Button'
+import Button from '../../Button'
+import close from '../../../assets/close.svg'
 
 import scss from './styles.module.scss'
 
 const CloseButton = () => {
-  const { hideInterface } = useDrawingBoard()
-
   useEffect(() => {
     const handleKeyPressed = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -28,8 +25,6 @@ const CloseButton = () => {
       chrome.tabs.sendMessage(tab.id || 0, { action: 'close' })
     })
   }
-
-  if (hideInterface) return null
 
   return (
     <div className={scss['closeButton']} data-testid="closeButton">
