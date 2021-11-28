@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react'
+import debounce from 'debounce'
 
 import eraser from '../../assets/eraser.svg'
 import cleanAll from '../../assets/trash.svg'
@@ -15,16 +16,31 @@ const Toolbox = () => {
   const { tool, setTool, setCleanAll, setHideInterface, hideInterface } =
     useDrawingBoard()
 
+  const toolbox = useRef<HTMLDivElement>(null)
   const eraserCircle = useRef<HTMLDivElement>(null)
+
+  const debouncedPosition = debounce((scroll: number) => {
+    if (toolbox?.current) {
+      toolbox.current.style.marginTop = `${scroll}px`
+      toolbox.current.style.opacity = '1'
+    }
+  }, 300)
+
+  useEffect(() => {
+    chrome.runtime.onMessage.addListener(({ scroll }) => {
+      if (!toolbox?.current) return
+
+      toolbox.current.style.opacity = '0'
+      debouncedPosition(scroll)
+    })
+  }, [])
 
   useEffect(() => {
     const handleEraserPosition = (event: MouseEvent) => {
       if (tool !== Tools.ERASER || !eraserCircle.current) return
 
-      eraserCircle.current.setAttribute(
-        'style',
-        `top: ${event.clientY}px; left: ${event.clientX}px`,
-      )
+      eraserCircle.current.style.top = `${event.clientY}px`
+      eraserCircle.current.style.left = `${event.clientX}px`
     }
 
     window.addEventListener('mousemove', handleEraserPosition)
@@ -61,11 +77,13 @@ const Toolbox = () => {
     )
   }, [hideInterface])
 
-  if (hideInterface) return null
-
   return (
     <>
-      <div className={scss['toolbox']} data-testid="toolbox">
+      <div
+        className={!hideInterface ? scss['toolbox'] : scss['toolbox-hide']}
+        data-testid="toolbox"
+        ref={toolbox}
+      >
         <Button onClick={() => setHideInterface(true)}>
           <img
             alt="download"
