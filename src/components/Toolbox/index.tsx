@@ -27,6 +27,12 @@ const Toolbox = () => {
     }
   }, 300)
 
+  const handleKeyPressed = (event: KeyboardEvent) => {
+    if ((event.ctrlKey || event.metaKey) && event.key === 'c') {
+      captureImage(false)
+    }
+  }
+
   useEffect(() => {
     chrome.runtime.onMessage.addListener(({ scroll }) => {
       if (!toolbox?.current) return
@@ -34,6 +40,9 @@ const Toolbox = () => {
       toolbox.current.style.opacity = '0'
       debouncedPosition(scroll)
     })
+
+    window.addEventListener('keydown', handleKeyPressed)
+    return () => window.removeEventListener('keydown', handleKeyPressed)
   }, [])
 
   useEffect(() => {
@@ -53,6 +62,10 @@ const Toolbox = () => {
   useEffect(() => {
     if (!hideInterface) return
 
+    captureImage(true)
+  }, [hideInterface])
+
+  const captureImage = (shouldDownload: boolean) => {
     chrome.tabs.captureVisibleTab(
       null as unknown as number,
       { format: 'png' },
@@ -67,10 +80,12 @@ const Toolbox = () => {
             }),
           ])
 
-          chrome.downloads.download({
-            filename: 'screenshot.png',
-            url: image,
-          })
+          if (shouldDownload) {
+            chrome.downloads.download({
+              filename: 'screenshot.png',
+              url: image,
+            })
+          }
         } catch (error) {
           console.error(error)
         } finally {
@@ -78,7 +93,7 @@ const Toolbox = () => {
         }
       },
     )
-  }, [hideInterface])
+  }
 
   return (
     <>
