@@ -2,10 +2,13 @@ import { useEffect } from 'react'
 
 import Button from '../../Button'
 import close from '../../../assets/close.svg'
+import tick from '../../../assets/tick.svg'
 
 import scss from './styles.module.scss'
 
-const CloseButton = () => {
+type Props = { showSuccessTick: boolean }
+
+const CloseButton = ({ showSuccessTick }: Props) => {
   useEffect(() => {
     const handleKeyPressed = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -28,8 +31,17 @@ const CloseButton = () => {
 
   return (
     <div className={scss['closeButton']} data-testid="closeButton">
-      <Button onClick={handleCloseButton}>
-        <img alt="close" src={close} width={24} height={24} draggable="false" />
+      <Button
+        onClick={handleCloseButton}
+        className={showSuccessTick ? scss['closeButton__tick'] : ''}
+      >
+        <img
+          alt="close"
+          src={showSuccessTick ? tick : close}
+          width={24}
+          height={24}
+          draggable="false"
+        />
       </Button>
     </div>
   )

@@ -15,6 +15,9 @@ import CloseButton from './CloseButton'
 
 const Toolbox = () => {
   const [hideInterface, setHideInterface] = useState(false)
+  const [downloadImageOnCapture, setDownloadImageOnCapture] = useState(true)
+  const [captureSuccess, setCaptureSuccess] = useState(false)
+
   const { tool, setTool, setCleanAll } = useDrawingBoard()
 
   const toolbox = useRef<HTMLDivElement>(null)
@@ -29,7 +32,8 @@ const Toolbox = () => {
 
   const handleKeyPressed = (event: KeyboardEvent) => {
     if ((event.ctrlKey || event.metaKey) && event.key === 'c') {
-      captureImage(false)
+      setDownloadImageOnCapture(false)
+      setHideInterface(true)
     }
   }
 
@@ -62,10 +66,10 @@ const Toolbox = () => {
   useEffect(() => {
     if (!hideInterface) return
 
-    captureImage(true)
+    captureImage()
   }, [hideInterface])
 
-  const captureImage = (shouldDownload: boolean) => {
+  const captureImage = () => {
     chrome.tabs.captureVisibleTab(
       null as unknown as number,
       { format: 'png' },
@@ -80,7 +84,7 @@ const Toolbox = () => {
             }),
           ])
 
-          if (shouldDownload) {
+          if (downloadImageOnCapture) {
             chrome.downloads.download({
               filename: 'screenshot.png',
               url: image,
@@ -89,7 +93,14 @@ const Toolbox = () => {
         } catch (error) {
           console.error(error)
         } finally {
+          setDownloadImageOnCapture(true)
           setHideInterface(false)
+          setCaptureSuccess(true)
+
+          const timeout = setTimeout(() => {
+            setCaptureSuccess(false)
+            clearTimeout(timeout)
+          }, 2000)
         }
       },
     )
@@ -102,7 +113,7 @@ const Toolbox = () => {
         ref={toolbox}
         data-testid="toolbox"
       >
-        <CloseButton />
+        <CloseButton showSuccessTick={captureSuccess} />
         <div className={scss['toolbox__tools']}>
           <Button onClick={() => setHideInterface(true)}>
             <img
