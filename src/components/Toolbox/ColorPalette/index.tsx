@@ -18,7 +18,7 @@ const ColorPalette = () => {
       {colors.map((color) => (
         <button
           key={color}
-          className={scss['colorPalette__color']}
+          className={scss['colorPalette__button']}
           style={{ backgroundColor: color }}
           aria-label={color}
           onClick={() => handleSelectColor(color)}

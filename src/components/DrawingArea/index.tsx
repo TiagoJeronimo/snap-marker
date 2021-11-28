@@ -13,6 +13,9 @@ const ERASER_WIDTH = 40
 const DrawingArea = () => {
   const [lines, setLines] = useState<Konva.LineConfig[]>([])
   const [removedLines, setRemovedLines] = useState<Konva.LineConfig[]>([])
+  const [cleanedBoardLines, setCleanedBoardLines] = useState<
+    Konva.LineConfig[]
+  >([])
   const [undo, setUndo] = useState(false)
   const [redo, setRedo] = useState(false)
 
@@ -40,6 +43,12 @@ const DrawingArea = () => {
     if (undo) {
       setUndo(false)
 
+      if (lines.length === 0 && cleanedBoardLines) {
+        setLines([...cleanedBoardLines])
+        setCleanedBoardLines([])
+        return
+      }
+
       const linesHistory = lines
       const removedLine = linesHistory.pop()
       if (!removedLine) return
@@ -63,6 +72,7 @@ const DrawingArea = () => {
 
   useEffect(() => {
     if (cleanAll) {
+      setCleanedBoardLines(lines)
       setLines([])
       setCleanAll(false)
     }

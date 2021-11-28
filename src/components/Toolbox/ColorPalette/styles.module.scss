@@ -2,11 +2,12 @@
   display: flex;
   gap: 8px;
 
-  .colorPalette__color {
+  .colorPalette__button {
     width: 32px;
     height: 32px;
     border-radius: 50%;
     border: none;
     cursor: pointer;
+    pointer-events: all;
   }
 }
