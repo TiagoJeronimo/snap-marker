@@ -1,9 +1,9 @@
 {
   "name": "Snap Marker",
-  "manifest_version": 3,
+  "description": "Mark, capture, download!",
   "version": "0.0.1",
-  "description": "Draw, capture, download, as simple as that!",
   "icons": { "16": "icon16.png", "48": "icon48.png", "128": "icon128.png" },
+  "manifest_version": 3,
   "content_scripts": [
     {
       "js": ["content.js"],

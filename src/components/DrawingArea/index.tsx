@@ -5,7 +5,7 @@ import Konva from 'konva'
 import { useDrawingBoard } from '../../context/DrawingBoard'
 import Tools from '../../enums/Tools'
 
-import scss from './styles.module.scss'
+Konva.pixelRatio = 1
 
 const BRUSH_WIDTH = 6
 const ERASER_WIDTH = 40
@@ -18,8 +18,7 @@ const DrawingArea = () => {
 
   const isDrawing = useRef(false)
 
-  const { selectedColor, cleanAll, setCleanAll, tool, hideInterface } =
-    useDrawingBoard()
+  const { selectedColor, cleanAll, setCleanAll, tool } = useDrawingBoard()
 
   useEffect(() => {
     const handleKeyPressed = (event: KeyboardEvent) => {
@@ -103,36 +102,32 @@ const DrawingArea = () => {
   }
 
   return (
-    <div
-      className={hideInterface ? '' : scss['drawingArea']}
+    <Stage
+      width={window.innerWidth}
+      height={window.innerHeight}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
       data-testid="drawingArea"
     >
-      <Stage
-        width={window.innerWidth}
-        height={window.innerHeight}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-      >
-        <Layer>
-          {lines.map((line, i) => (
-            <Line
-              key={i}
-              points={line.points}
-              stroke={line.color}
-              strokeWidth={
-                line.tool === Tools.ERASER ? ERASER_WIDTH : BRUSH_WIDTH
-              }
-              tension={0.5}
-              lineCap="round"
-              globalCompositeOperation={
-                line.tool === Tools.ERASER ? 'destination-out' : 'source-over'
-              }
-            />
-          ))}
-        </Layer>
-      </Stage>
-    </div>
+      <Layer>
+        {lines.map((line, index) => (
+          <Line
+            key={index}
+            points={line.points}
+            stroke={line.color}
+            strokeWidth={
+              line.tool === Tools.ERASER ? ERASER_WIDTH : BRUSH_WIDTH
+            }
+            tension={0.5}
+            lineCap="round"
+            globalCompositeOperation={
+              line.tool === Tools.ERASER ? 'destination-out' : 'source-over'
+            }
+          />
+        ))}
+      </Layer>
+    </Stage>
   )
 }
 
