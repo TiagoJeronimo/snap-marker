@@ -12,13 +12,9 @@ const ERASER_WIDTH = 40
 
 const DrawingArea = () => {
   const [lines, setLines] = useState<Konva.LineConfig[]>([])
-  const [removedLines, setRemovedLines] = useState<Konva.LineConfig[]>([])
-  const [cleanedBoardLines, setCleanedBoardLines] = useState<
-    Konva.LineConfig[]
-  >([])
-  const [undo, setUndo] = useState(false)
-  const [redo, setRedo] = useState(false)
 
+  const drawingHistory = useRef<Konva.LineConfig[]>([])
+  const drawingHistoryStep = useRef(0)
   const isDrawing = useRef(false)
 
   const { selectedColor, cleanAll, setCleanAll, tool } = useDrawingBoard()
@@ -29,9 +25,9 @@ const DrawingArea = () => {
         (event.metaKey && event.shiftKey && event.key === 'z') ||
         (event.ctrlKey && event.key === 'y')
       ) {
-        setRedo(true)
+        handleRedo()
       } else if ((event.ctrlKey || event.metaKey) && event.key === 'z') {
-        setUndo(true)
+        handleUndo()
       }
     }
 
@@ -40,46 +36,40 @@ const DrawingArea = () => {
   }, [])
 
   useEffect(() => {
-    if (undo) {
-      setUndo(false)
-
-      if (lines.length === 0 && cleanedBoardLines) {
-        setLines([...cleanedBoardLines])
-        setCleanedBoardLines([])
-        return
-      }
-
-      const linesHistory = lines
-      const removedLine = linesHistory.pop()
-      if (!removedLine) return
-
-      setRemovedLines([removedLine, ...removedLines])
-      setLines([...linesHistory])
-    }
-  }, [undo])
-
-  useEffect(() => {
-    if (redo) {
-      setRedo(false)
-
-      const removedLinesHistory = removedLines
-      const removedLine = removedLinesHistory.shift()
-      if (!removedLine) return
-
-      setLines([...lines, removedLine])
-    }
-  }, [redo])
-
-  useEffect(() => {
     if (cleanAll) {
-      setCleanedBoardLines(lines)
+      drawingHistoryStep.current += 1
       setLines([])
       setCleanAll(false)
     }
   }, [cleanAll])
 
+  const handleUndo = () => {
+    if (drawingHistoryStep.current === 0) {
+      return
+    }
+
+    drawingHistoryStep.current -= 1
+    const previous = drawingHistory.current.slice(0, drawingHistoryStep.current)
+    setLines(previous)
+  }
+
+  const handleRedo = () => {
+    if (drawingHistoryStep.current === drawingHistory.current.length) {
+      return
+    }
+
+    drawingHistoryStep.current += 1
+    const next = drawingHistory.current.slice(0, drawingHistoryStep.current)
+    setLines(next)
+  }
+
   const handleMouseDown = (event: Konva.KonvaEventObject<MouseEvent>) => {
     isDrawing.current = true
+
+    drawingHistory.current = drawingHistory.current.slice(
+      0,
+      drawingHistoryStep.current + 1,
+    )
 
     const stage = event.target.getStage()
     const position = stage?.getPointerPosition()
@@ -109,6 +99,8 @@ const DrawingArea = () => {
 
   const handleMouseUp = () => {
     isDrawing.current = false
+    drawingHistoryStep.current += 1
+    drawingHistory.current = lines
   }
 
   return (
