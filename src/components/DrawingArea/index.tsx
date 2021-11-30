@@ -31,8 +31,16 @@ const DrawingArea = () => {
       }
     }
 
+    const stopDrawing = () => {
+      isDrawing.current = false
+    }
+
+    window.addEventListener('mouseup', stopDrawing)
     window.addEventListener('keydown', handleKeyPressed)
-    return () => window.removeEventListener('keydown', handleKeyPressed)
+    return () => {
+      window.removeEventListener('mouseup', stopDrawing)
+      window.removeEventListener('keydown', handleKeyPressed)
+    }
   }, [])
 
   useEffect(() => {
