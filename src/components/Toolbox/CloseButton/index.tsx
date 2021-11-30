@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 
-import Button from '../../Button'
-import close from '../../../assets/close.svg'
-import tick from '../../../assets/tick.svg'
+import Button from 'components/Button'
+import close from 'assets/close.svg'
+import tick from 'assets/tick.svg'
 
 import scss from './styles.module.scss'
 
@@ -40,7 +40,7 @@ const CloseButton = ({ showSuccessTick }: Props) => {
           src={showSuccessTick ? tick : close}
           width={24}
           height={24}
-          draggable="false"
+          draggable={false}
         />
       </Button>
     </div>

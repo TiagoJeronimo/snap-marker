@@ -1,6 +1,6 @@
-import DrawingArea from '../components/DrawingArea'
-import Toolbox from '../components/Toolbox'
-import { DrawingBoardProvider } from '../context/DrawingBoard'
+import DrawingArea from 'components/DrawingArea'
+import Toolbox from 'components/Toolbox'
+import { DrawingBoardProvider } from 'context/DrawingBoard'
 
 const App = () => (
   <DrawingBoardProvider>

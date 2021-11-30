@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import { Stage, Layer, Line } from 'react-konva'
 import Konva from 'konva'
 
-import { useDrawingBoard } from '../../context/DrawingBoard'
-import Tools from '../../enums/Tools'
+import { useDrawingBoard } from 'context/DrawingBoard'
+import Tools from 'enums/Tools'
 
 Konva.pixelRatio = 1
 

@@ -1,6 +1,6 @@
 import { MouseEvent } from 'react'
-import { useDrawingBoard } from '../../../context/DrawingBoard'
-import Tools from '../../../enums/Tools'
+import { useDrawingBoard } from 'context/DrawingBoard'
+import Tools from 'enums/Tools'
 
 import scss from './styles.module.scss'
 
