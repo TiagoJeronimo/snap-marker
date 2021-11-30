@@ -6,7 +6,7 @@ import {
   useContext,
   useState,
 } from 'react'
-import Tools from '../enums/Tools'
+import Tools from 'enums/Tools'
 
 type Context = {
   selectedColor: string

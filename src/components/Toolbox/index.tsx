@@ -1,24 +1,19 @@
 import { useRef, useEffect, useState } from 'react'
 import debounce from 'debounce'
 
-import eraser from '../../assets/eraser.svg'
-import cleanAll from '../../assets/trash.svg'
-import download from '../../assets/download.svg'
-
-import { useDrawingBoard } from '../../context/DrawingBoard'
-import Tools from '../../enums/Tools'
 import ColorPalette from './ColorPalette'
 
 import scss from './styles.module.scss'
-import Button from '../Button'
 import CloseButton from './CloseButton'
+import DownloadButton from './DownloadButton'
+import EraserButton from './EraserButton'
+import CleanAllButton from './CleanAllButton'
 
 const Toolbox = () => {
-  const [hideInterface, setHideInterface] = useState(false)
-  const { tool, setTool, setCleanAll } = useDrawingBoard()
+  const [isInterfaceHidden, setIsInterfaceHidden] = useState(false)
+  const [isCaptureSuccess, setIsCaptureSuccess] = useState(false)
 
   const toolbox = useRef<HTMLDivElement>(null)
-  const eraserCircle = useRef<HTMLDivElement>(null)
 
   const debouncedPosition = debounce((scroll: number) => {
     if (toolbox?.current) {
@@ -36,93 +31,34 @@ const Toolbox = () => {
     })
   }, [])
 
-  useEffect(() => {
-    if (tool !== Tools.ERASER) return
+  const onCaptureImageCallback = () => {
+    setIsInterfaceHidden(false)
+    setIsCaptureSuccess(true)
 
-    const handleEraserPosition = (event: MouseEvent) => {
-      if (!eraserCircle.current) return
-
-      eraserCircle.current.style.top = `${event.clientY}px`
-      eraserCircle.current.style.left = `${event.clientX}px`
-    }
-
-    window.addEventListener('mousemove', handleEraserPosition)
-    return () => window.removeEventListener('mousemove', handleEraserPosition)
-  }, [tool])
-
-  useEffect(() => {
-    if (!hideInterface) return
-
-    chrome.tabs.captureVisibleTab(
-      null as unknown as number,
-      { format: 'png' },
-      async (image) => {
-        try {
-          const data = await fetch(image)
-          const blob = await data.blob()
-
-          await navigator.clipboard.write([
-            new ClipboardItem({
-              'image/png': blob,
-            }),
-          ])
-
-          chrome.downloads.download({
-            filename: 'screenshot.png',
-            url: image,
-          })
-        } catch (error) {
-          console.error(error)
-        } finally {
-          setHideInterface(false)
-        }
-      },
-    )
-  }, [hideInterface])
+    const timeout = setTimeout(() => {
+      setIsCaptureSuccess(false)
+      clearTimeout(timeout)
+    }, 1000)
+  }
 
   return (
-    <>
-      <div
-        className={!hideInterface ? scss['toolbox'] : scss['toolbox-hide']}
-        ref={toolbox}
-        data-testid="toolbox"
-      >
-        <CloseButton />
-        <div className={scss['toolbox__tools']}>
-          <Button onClick={() => setHideInterface(true)}>
-            <img
-              alt="download"
-              src={download}
-              width={21}
-              height={21}
-              draggable="false"
-            />
-          </Button>
-          <ColorPalette />
-          <Button onClick={() => setTool(Tools.ERASER)}>
-            <img
-              alt="eraser"
-              src={eraser}
-              width={21}
-              height={21}
-              draggable="false"
-            />
-          </Button>
-          <Button onClick={() => setCleanAll(true)}>
-            <img
-              alt="trash"
-              src={cleanAll}
-              width={24}
-              height={24}
-              draggable="false"
-            />
-          </Button>
-        </div>
+    <div
+      className={!isInterfaceHidden ? scss['toolbox'] : scss['toolbox-hide']}
+      ref={toolbox}
+      data-testid="toolbox"
+    >
+      <CloseButton showSuccessTick={isCaptureSuccess} />
+      <div className={scss['toolbox__tools']}>
+        <DownloadButton
+          isInterfaceHidden={isInterfaceHidden}
+          onCaptureImage={() => setIsInterfaceHidden(true)}
+          onCaptureImageCallback={onCaptureImageCallback}
+        />
+        <ColorPalette />
+        <EraserButton isInterfaceHidden={isInterfaceHidden} />
+        <CleanAllButton />
       </div>
-      {tool === Tools.ERASER && !hideInterface && (
-        <div ref={eraserCircle} className={scss['toolbox__eraserCircle']} />
-      )}
-    </>
+    </div>
   )
 }
 

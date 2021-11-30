@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import { Stage, Layer, Line } from 'react-konva'
 import Konva from 'konva'
 
-import { useDrawingBoard } from '../../context/DrawingBoard'
-import Tools from '../../enums/Tools'
+import { useDrawingBoard } from 'context/DrawingBoard'
+import Tools from 'enums/Tools'
 
 Konva.pixelRatio = 1
 
@@ -12,13 +12,9 @@ const ERASER_WIDTH = 40
 
 const DrawingArea = () => {
   const [lines, setLines] = useState<Konva.LineConfig[]>([])
-  const [removedLines, setRemovedLines] = useState<Konva.LineConfig[]>([])
-  const [cleanedBoardLines, setCleanedBoardLines] = useState<
-    Konva.LineConfig[]
-  >([])
-  const [undo, setUndo] = useState(false)
-  const [redo, setRedo] = useState(false)
 
+  const drawingHistory = useRef<Konva.LineConfig[][]>([[]])
+  const drawingHistoryStep = useRef(0)
   const isDrawing = useRef(false)
 
   const { selectedColor, cleanAll, setCleanAll, tool } = useDrawingBoard()
@@ -29,54 +25,52 @@ const DrawingArea = () => {
         (event.metaKey && event.shiftKey && event.key === 'z') ||
         (event.ctrlKey && event.key === 'y')
       ) {
-        setRedo(true)
+        handleRedo()
       } else if ((event.ctrlKey || event.metaKey) && event.key === 'z') {
-        setUndo(true)
+        handleUndo()
       }
     }
 
+    const stopDrawing = () => {
+      isDrawing.current = false
+    }
+
+    window.addEventListener('mouseup', stopDrawing)
     window.addEventListener('keydown', handleKeyPressed)
-    return () => window.removeEventListener('keydown', handleKeyPressed)
+    return () => {
+      window.removeEventListener('mouseup', stopDrawing)
+      window.removeEventListener('keydown', handleKeyPressed)
+    }
   }, [])
 
   useEffect(() => {
-    if (undo) {
-      setUndo(false)
-
-      if (lines.length === 0 && cleanedBoardLines) {
-        setLines([...cleanedBoardLines])
-        setCleanedBoardLines([])
-        return
-      }
-
-      const linesHistory = lines
-      const removedLine = linesHistory.pop()
-      if (!removedLine) return
-
-      setRemovedLines([removedLine, ...removedLines])
-      setLines([...linesHistory])
-    }
-  }, [undo])
-
-  useEffect(() => {
-    if (redo) {
-      setRedo(false)
-
-      const removedLinesHistory = removedLines
-      const removedLine = removedLinesHistory.shift()
-      if (!removedLine) return
-
-      setLines([...lines, removedLine])
-    }
-  }, [redo])
-
-  useEffect(() => {
     if (cleanAll) {
-      setCleanedBoardLines(lines)
+      drawingHistoryStep.current += 1
+      drawingHistory.current[drawingHistoryStep.current] = []
       setLines([])
       setCleanAll(false)
     }
   }, [cleanAll])
+
+  const handleUndo = () => {
+    if (drawingHistoryStep.current === 0) {
+      return
+    }
+
+    const previous = drawingHistory.current[drawingHistoryStep.current - 1]
+    drawingHistoryStep.current -= 1
+    setLines(previous)
+  }
+
+  const handleRedo = () => {
+    if (drawingHistoryStep.current === drawingHistory.current.length - 1) {
+      return
+    }
+
+    const next = drawingHistory.current[drawingHistoryStep.current + 1]
+    drawingHistoryStep.current += 1
+    setLines(next)
+  }
 
   const handleMouseDown = (event: Konva.KonvaEventObject<MouseEvent>) => {
     isDrawing.current = true
@@ -109,6 +103,14 @@ const DrawingArea = () => {
 
   const handleMouseUp = () => {
     isDrawing.current = false
+
+    drawingHistory.current = drawingHistory.current.slice(
+      0,
+      drawingHistoryStep.current + 1,
+    )
+
+    drawingHistoryStep.current += 1
+    drawingHistory.current[drawingHistoryStep.current] = lines
   }
 
   return (
