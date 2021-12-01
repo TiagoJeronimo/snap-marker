@@ -1,6 +1,13 @@
 chrome.runtime.onMessage.addListener(({ type, action }) => {
+  let initialScrollHeight = document.body.scrollHeight
   let modal = document.getElementById('snap-marker-iframe')
   let setInitialPositionTimeout = null
+
+  const sendInitialScrollPosition = () => {
+    chrome.runtime.sendMessage(chrome.runtime.id, {
+      initialScroll: window.scrollY,
+    })
+  }
 
   const sendScrollPosition = () => {
     chrome.runtime.sendMessage(chrome.runtime.id, {
@@ -22,10 +29,10 @@ chrome.runtime.onMessage.addListener(({ type, action }) => {
 
     modal.setAttribute(
       'style',
-      `position: absolute; top: 0; height:${document.body.scrollHeight}px; width: 100%; border: unset; z-index: 9999;`,
+      `position: absolute; top: 0; height:${initialScrollHeight}px; width: 100%; border: unset; z-index: 9999;`,
     )
 
-    setInitialPositionTimeout = setTimeout(sendScrollPosition, 100)
+    setInitialPositionTimeout = setTimeout(sendInitialScrollPosition, 50)
   }
 
   if (action === 'close') {

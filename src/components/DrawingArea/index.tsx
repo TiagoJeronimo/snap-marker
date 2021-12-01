@@ -9,6 +9,7 @@ Konva.pixelRatio = 1
 
 const BRUSH_WIDTH = 6
 const ERASER_WIDTH = 40
+const LEFT_CLICK = 2
 
 const DrawingArea = () => {
   const [lines, setLines] = useState<Konva.LineConfig[]>([])
@@ -73,6 +74,8 @@ const DrawingArea = () => {
   }
 
   const handleMouseDown = (event: Konva.KonvaEventObject<MouseEvent>) => {
+    if (event.evt.buttons === LEFT_CLICK) return
+
     isDrawing.current = true
 
     const stage = event.target.getStage()

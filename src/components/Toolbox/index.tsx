@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useState, useLayoutEffect } from 'react'
 import debounce from 'debounce'
 
 import ColorPalette from './ColorPalette'
@@ -22,9 +22,14 @@ const Toolbox = () => {
     }
   }, 300)
 
-  useEffect(() => {
-    chrome.runtime.onMessage.addListener(({ scroll }) => {
+  useLayoutEffect(() => {
+    chrome.runtime?.onMessage.addListener(({ scroll, initialScroll }) => {
       if (!toolbox?.current) return
+
+      if (initialScroll !== undefined) {
+        toolbox.current.style.marginTop = `${initialScroll}px`
+        return
+      }
 
       toolbox.current.style.opacity = '0'
       debouncedPosition(scroll)
