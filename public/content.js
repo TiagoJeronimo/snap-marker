@@ -29,7 +29,7 @@ chrome.runtime.onMessage.addListener(({ type, action }) => {
 
     modal.setAttribute(
       'style',
-      `position: absolute; top: 0; height:${initialScrollHeight}px; width: 100%; border: unset; z-index: 9999;`,
+      `position: absolute; top: 0; height:${initialScrollHeight}px; width: 100%; border: unset; z-index: 9999; color-scheme: light;`,
     )
 
     setInitialPositionTimeout = setTimeout(sendInitialScrollPosition, 50)
