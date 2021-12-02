@@ -33,6 +33,8 @@ const Toolbox = () => {
 
       toolbox.current.style.opacity = '0'
       debouncedPosition(scroll)
+
+      return true
     })
   }, [])
 

@@ -1,6 +1,8 @@
+export {}
+
 chrome.runtime.onMessage.addListener(({ type, action }) => {
-  let initialScrollHeight = document.documentElement.scrollHeight
-  let modal = document.getElementById('snap-marker-iframe')
+  const initialScrollHeight = document.documentElement.scrollHeight
+  let modal = <HTMLIFrameElement>document.getElementById('snap-marker-iframe')
   let setInitialPositionTimeout = null
 
   const sendInitialScrollPosition = () => {
@@ -40,6 +42,6 @@ chrome.runtime.onMessage.addListener(({ type, action }) => {
 
     modal.remove()
     document.removeEventListener('scroll', sendScrollPosition, false)
-    clearTimeout(setInitialPositionTimeout)
+    setInitialPositionTimeout && clearTimeout(setInitialPositionTimeout)
   }
 })

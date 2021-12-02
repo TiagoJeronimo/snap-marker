@@ -6,12 +6,12 @@
   "manifest_version": 3,
   "content_scripts": [
     {
-      "js": ["content.js"],
+      "js": ["./static/js/content.js"],
       "matches": ["<all_urls>"]
     }
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "./static/js/background.js"
   },
   "action": {},
   "permissions": ["scripting", "contextMenus", "activeTab", "downloads"],
