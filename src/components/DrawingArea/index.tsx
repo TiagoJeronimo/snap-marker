@@ -5,8 +5,12 @@ import Konva from 'konva'
 import { useDrawingBoard } from 'context/DrawingBoard'
 import Tools from 'enums/Tools'
 
+import scss from './styles.module.scss'
+
 Konva.pixelRatio = 1
 
+const MAX_CANVAS_HEIGHT = 16000
+const WARNING_BANNER_HEIGHT = 64
 const BRUSH_WIDTH = 6
 const ERASER_WIDTH = 40
 const LEFT_CLICK = 2
@@ -117,32 +121,43 @@ const DrawingArea = () => {
   }
 
   return (
-    <Stage
-      width={window.innerWidth}
-      height={window.innerHeight}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      data-testid="drawingArea"
-    >
-      <Layer>
-        {lines.map((line, index) => (
-          <Line
-            key={index}
-            points={line.points}
-            stroke={line.color}
-            strokeWidth={
-              line.tool === Tools.ERASER ? ERASER_WIDTH : BRUSH_WIDTH
-            }
-            tension={0.5}
-            lineCap="round"
-            globalCompositeOperation={
-              line.tool === Tools.ERASER ? 'destination-out' : 'source-over'
-            }
-          />
-        ))}
-      </Layer>
-    </Stage>
+    <>
+      <Stage
+        width={window.innerWidth}
+        height={
+          window.innerHeight > MAX_CANVAS_HEIGHT
+            ? MAX_CANVAS_HEIGHT
+            : window.innerHeight
+        }
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        data-testid="drawingArea"
+      >
+        <Layer>
+          {lines.map((line, index) => (
+            <Line
+              key={index}
+              points={line.points}
+              stroke={line.color}
+              strokeWidth={
+                line.tool === Tools.ERASER ? ERASER_WIDTH : BRUSH_WIDTH
+              }
+              tension={0.5}
+              lineCap="round"
+              globalCompositeOperation={
+                line.tool === Tools.ERASER ? 'destination-out' : 'source-over'
+              }
+            />
+          ))}
+        </Layer>
+      </Stage>
+      {window.innerHeight > MAX_CANVAS_HEIGHT + WARNING_BANNER_HEIGHT && (
+        <h2 className={scss['drawingArea__maxSize']}>
+          UNFORTUNATELY, THIS IS THE CANVAS MAX SIZE
+        </h2>
+      )}
+    </>
   )
 }
 

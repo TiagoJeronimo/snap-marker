@@ -4,12 +4,26 @@ chrome.runtime.onInstalled.addListener(() => {
     title: 'Snap Marker',
     contexts: ['all'],
   })
-})
 
-chrome.contextMenus.onClicked.addListener((info, tab) => {
-  chrome.tabs.sendMessage(tab.id, { type: 'draw' })
-})
+  const installContent = (tabId) => {
+    chrome.scripting.executeScript(
+      {
+        target: { tabId: tabId },
+        files: ['content.js'],
+      },
+      (results) => {
+        if (results[0] !== true) {
+          chrome.tabs.sendMessage(tabId, { type: 'draw' })
+        }
+      },
+    )
+  }
 
-chrome.action.onClicked.addListener((tab) => {
-  chrome.tabs.sendMessage(tab.id, { type: 'draw' })
+  chrome.contextMenus.onClicked.addListener((info, tab) => {
+    installContent(tab.id)
+  })
+
+  chrome.action.onClicked.addListener((tab) => {
+    installContent(tab.id)
+  })
 })

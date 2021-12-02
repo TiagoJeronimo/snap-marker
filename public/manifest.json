@@ -14,7 +14,7 @@
     "service_worker": "background.js"
   },
   "action": {},
-  "permissions": ["contextMenus", "activeTab", "downloads"],
+  "permissions": ["scripting", "contextMenus", "activeTab", "downloads"],
   "web_accessible_resources": [
     {
       "resources": ["index.html"],
