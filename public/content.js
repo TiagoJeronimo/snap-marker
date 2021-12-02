@@ -1,5 +1,5 @@
 chrome.runtime.onMessage.addListener(({ type, action }) => {
-  let initialScrollHeight = document.body.scrollHeight
+  let initialScrollHeight = document.documentElement.scrollHeight
   let modal = document.getElementById('snap-marker-iframe')
   let setInitialPositionTimeout = null
 
