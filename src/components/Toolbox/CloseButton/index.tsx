@@ -24,14 +24,18 @@ const CloseButton = ({ showSuccessTick }: Props) => {
   const handleCloseButton = () => {
     console.log('chrome.runtime.id', chrome.runtime.id)
     // console.log('chrome.tabs', chrome.tabs)
-    chrome.runtime.sendMessage(
-      chrome.runtime.id,
-      { action: 'close' },
-      {},
-      (resp) => {
-        console.log('RESP', resp)
-      },
-    )
+    // chrome.runtime.sendMessage(
+    //   chrome.runtime.id,
+    //   { action: 'close' },
+    //   {},
+    //   (resp) => {
+    //     console.log('RESP', resp)
+    //   },
+    // )
+
+    chrome.runtime.sendMessage({ action: 'close' }, function (response) {
+      console.log('RESPSP', response)
+    })
     // chrome.tabs &&
     //   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     //     const tab = tabs[0]
