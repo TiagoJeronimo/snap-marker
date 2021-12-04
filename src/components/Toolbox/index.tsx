@@ -1,5 +1,5 @@
-import { useRef, useState, useLayoutEffect } from 'react'
-import debounce from 'debounce'
+import { useState } from 'react'
+// import debounce from 'debounce'
 
 import ColorPalette from './ColorPalette'
 
@@ -13,30 +13,30 @@ const Toolbox = () => {
   const [isInterfaceHidden, setIsInterfaceHidden] = useState(false)
   const [isCaptureSuccess, setIsCaptureSuccess] = useState(false)
 
-  const toolbox = useRef<HTMLDivElement>(null)
+  // const toolbox = useRef<HTMLDivElement>(null)
 
-  const debouncedPosition = debounce((scroll: number) => {
-    if (toolbox?.current) {
-      toolbox.current.style.marginTop = `${scroll}px`
-      toolbox.current.style.opacity = '1'
-    }
-  }, 300)
+  // const debouncedPosition = debounce((scroll: number) => {
+  //   if (toolbox?.current) {
+  //     toolbox.current.style.marginTop = `${scroll}px`
+  //     toolbox.current.style.opacity = '1'
+  //   }
+  // }, 300)
 
-  useLayoutEffect(() => {
-    chrome.runtime?.onMessage.addListener(({ scroll, initialScroll }) => {
-      if (!toolbox?.current) return
+  // useLayoutEffect(() => {
+  //   chrome.runtime?.onMessage.addListener(({ scroll, initialScroll }) => {
+  //     if (!toolbox?.current) return
 
-      if (initialScroll !== undefined) {
-        toolbox.current.style.marginTop = `${initialScroll}px`
-        return
-      }
+  //     if (initialScroll !== undefined) {
+  //       toolbox.current.style.marginTop = `${initialScroll}px`
+  //       return
+  //     }
 
-      toolbox.current.style.opacity = '0'
-      debouncedPosition(scroll)
+  //     toolbox.current.style.opacity = '0'
+  //     debouncedPosition(scroll)
 
-      return true
-    })
-  }, [])
+  //     return true
+  //   })
+  // }, [])
 
   const onCaptureImageCallback = () => {
     setIsInterfaceHidden(false)
@@ -51,7 +51,7 @@ const Toolbox = () => {
   return (
     <div
       className={!isInterfaceHidden ? scss['toolbox'] : scss['toolbox-hide']}
-      ref={toolbox}
+      // ref={toolbox}
       data-testid="toolbox"
     >
       <CloseButton showSuccessTick={isCaptureSuccess} />

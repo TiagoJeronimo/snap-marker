@@ -5,6 +5,7 @@ import close from 'assets/close.svg'
 import tick from 'assets/tick.svg'
 
 import scss from './styles.module.scss'
+import { messager } from 'chrome/content'
 
 type Props = { showSuccessTick: boolean }
 
@@ -21,12 +22,38 @@ const CloseButton = ({ showSuccessTick }: Props) => {
   }, [])
 
   const handleCloseButton = () => {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      const tab = tabs[0]
-      if (!tab) return
+    console.log('chrome.runtime.id', chrome.runtime.id)
+    // console.log('chrome.tabs', chrome.tabs)
+    chrome.runtime.sendMessage(
+      chrome.runtime.id,
+      { action: 'close' },
+      {},
+      (resp) => {
+        console.log('RESP', resp)
+      },
+    )
+    // chrome.tabs &&
+    //   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    //     const tab = tabs[0]
+    //     if (!tab) return
 
-      chrome.tabs.sendMessage(tab.id || 0, { action: 'close' })
-    })
+    //     chrome.tabs.sendMessage(tab.id || 0, { action: 'close' })
+    //   })
+
+    messager({ action: 'close' })
+
+    window.chrome?.tabs?.query(
+      { active: true, currentWindow: true },
+      (tabs) => {
+        const tabId = tabs[0].id
+        if (!tabId) return
+
+        window.chrome.tabs.sendMessage(tabId, { action: 'close' }, (resp) =>
+          console.log('Aasfasf', resp),
+        )
+      },
+    )
+    return true
   }
 
   return (

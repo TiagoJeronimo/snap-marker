@@ -4,13 +4,23 @@ module.exports = {
       return {
         ...webpackConfig,
         entry: {
-          main: [
-            env === 'development' &&
-              require.resolve('react-dev-utils/webpackHotDevClient'),
-            paths.appIndexJs,
-          ].filter(Boolean),
-          content: './src/chrome/content.ts',
+          ...webpackConfig.entry,
+          content: './src/chrome/content.js',
           background: './src/chrome/background.ts',
+        },
+        module: {
+          rules: [
+            {
+              test: /\.(js|jsx)$/,
+              exclude: /(node_modules|bower_components)/,
+              loader: 'babel-loader',
+              options: { presets: ['@babel/env'] },
+            },
+            {
+              test: /\.css$/,
+              use: ['style-loader', 'css-loader'],
+            },
+          ],
         },
         output: {
           ...webpackConfig.output,
@@ -18,6 +28,10 @@ module.exports = {
         },
         optimization: {
           ...webpackConfig.optimization,
+          splitChunks: {
+            chunks: 'all',
+            name: false,
+          },
           runtimeChunk: false,
         },
       }

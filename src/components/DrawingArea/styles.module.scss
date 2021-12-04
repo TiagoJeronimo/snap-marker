@@ -1,3 +1,10 @@
+.drawingArea {
+  position: absolute;
+  top: 0;
+  z-index: 2147483646;
+  left: 0;
+}
+
 .drawingArea__maxSize {
   text-align: center;
   text-shadow: 0 3px 8px rgb(0 0 0 / 24%);

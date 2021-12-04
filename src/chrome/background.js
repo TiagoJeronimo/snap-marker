@@ -27,7 +27,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   return
 })
 
-const installContent = (tabId: number) => {
+const installContent = (tabId) => {
   chrome.scripting.executeScript(
     {
       target: { tabId },
@@ -35,6 +35,7 @@ const installContent = (tabId: number) => {
     },
     (results) => {
       chrome.tabs.sendMessage(tabId, { type: 'draw' })
+      return true
     },
   )
 }

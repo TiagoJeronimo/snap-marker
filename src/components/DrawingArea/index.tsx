@@ -125,14 +125,15 @@ const DrawingArea = () => {
       <Stage
         width={window.innerWidth}
         height={
-          window.innerHeight > MAX_CANVAS_HEIGHT
+          document.body.scrollHeight > MAX_CANVAS_HEIGHT
             ? MAX_CANVAS_HEIGHT
-            : window.innerHeight
+            : document.body.scrollHeight
         }
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         data-testid="drawingArea"
+        className={scss['drawingArea']}
       >
         <Layer>
           {lines.map((line, index) => (
