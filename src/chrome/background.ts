@@ -8,28 +8,33 @@ chrome.runtime.onInstalled.addListener(() => {
     contexts: ['all'],
   })
 
-  const installContent = (tabId: number) => {
-    chrome.scripting.executeScript(
-      {
-        target: { tabId: tabId },
-        files: ['./static/js/content.js'],
-      },
-      (results) => {
-        console.log('AQUIII', results[0], !results[0])
-        chrome.tabs.sendMessage(tabId, { type: 'draw' })
-      },
-    )
-  }
-
-  chrome.contextMenus.onClicked.addListener((info, tab) => {
-    if (!tab?.id) return
-
-    installContent(tab.id)
-  })
-
-  chrome.action.onClicked.addListener((tab) => {
-    if (!tab?.id) return
-
-    installContent(tab.id)
-  })
+  return
 })
+
+chrome.action.onClicked.addListener((tab) => {
+  const tabId = tab?.id
+  if (!tabId) return
+
+  installContent(tabId)
+  return
+})
+
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+  const tabId = tab?.id
+  if (!tabId) return
+
+  installContent(tabId)
+  return
+})
+
+const installContent = (tabId: number) => {
+  chrome.scripting.executeScript(
+    {
+      target: { tabId },
+      files: ['./static/js/content.js'],
+    },
+    (results) => {
+      chrome.tabs.sendMessage(tabId, { type: 'draw' })
+    },
+  )
+}
