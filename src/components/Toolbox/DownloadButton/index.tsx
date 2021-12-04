@@ -32,38 +32,28 @@ const DownloadButton = ({
   useEffect(() => {
     if (!isInterfaceHidden) return
 
-    captureImage()
+    handleCaptureImage()
   }, [isInterfaceHidden])
 
-  const captureImage = () => {
-    chrome.tabs.captureVisibleTab(
-      null as unknown as number,
-      { format: 'png' },
-      async (image) => {
-        try {
-          const data = await fetch(image)
-          const blob = await data.blob()
+  const handleCaptureImage = () => {
+    chrome.runtime.sendMessage(
+      { action: downloadImageOnCapture ? 'download' : 'capture' },
+      {},
+      async ({ image }) => {
+        const data = await fetch(image)
+        const blob = await data.blob()
 
-          await navigator.clipboard.write([
-            new ClipboardItem({
-              'image/png': blob,
-            }),
-          ])
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            'image/png': blob,
+          }),
+        ])
 
-          if (downloadImageOnCapture) {
-            chrome.downloads.download({
-              filename: 'screenshot.png',
-              url: image,
-            })
-          }
-        } catch (error) {
-          console.error(error)
-        } finally {
-          setDownloadImageOnCapture(true)
-          onCaptureImageCallback()
-        }
+        setDownloadImageOnCapture(true)
+        onCaptureImageCallback()
       },
     )
+    return true
   }
 
   return (

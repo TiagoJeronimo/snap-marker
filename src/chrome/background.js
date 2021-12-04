@@ -1,7 +1,6 @@
 export {}
 
 chrome.runtime.onInstalled.addListener(() => {
-  console.log('onInstalled')
   chrome.contextMenus.create({
     id: 'snap-marker',
     title: 'Snap Marker',
@@ -9,6 +8,23 @@ chrome.runtime.onInstalled.addListener(() => {
   })
 
   return
+})
+
+chrome.runtime.onMessage.addListener(({ action }, { tab }, sendResponse) => {
+  if (action === 'close') {
+    chrome.tabs.sendMessage(tab.id, { action: 'close' })
+    sendResponse({ farewell: 'goodbye' })
+  }
+
+  if (action === 'capture') {
+    captureImage().then(sendResponse)
+    return true
+  }
+
+  if (action === 'download') {
+    captureImage(true).then(sendResponse)
+    return true
+  }
 })
 
 chrome.action.onClicked.addListener((tab) => {
@@ -33,18 +49,30 @@ const installContent = (tabId) => {
       target: { tabId },
       files: ['./static/js/content.js'],
     },
-    (results) => {
+    () => {
       chrome.tabs.sendMessage(tabId, { type: 'draw' })
       return true
     },
   )
 }
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  console.log(
-    sender.tab
-      ? 'from a content script:' + sender.tab.url
-      : 'from the extension',
-  )
-  if (request.greeting === 'hello') sendResponse({ farewell: 'goodbye' })
-})
+const captureImage = async (download) => {
+  const image = await chrome.tabs
+    .captureVisibleTab(null, { format: 'png' })
+    .then((image) => {
+      try {
+        if (download) {
+          chrome.downloads.download({
+            filename: 'screenshot.png',
+            url: image,
+          })
+        }
+
+        return image
+      } catch (error) {
+        console.error(error)
+      }
+    })
+
+  return { image }
+}
