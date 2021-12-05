@@ -18,7 +18,7 @@
     "jsx": "react-jsx"
   },
   "exclude": ["public"],
-  "include": ["src"],
+  "include": ["src", "custom.d.ts"],
   "ts-node": {
     "compilerOptions": {
       "module": "CommonJS"
