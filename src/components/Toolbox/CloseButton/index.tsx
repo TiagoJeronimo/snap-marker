@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 
 import Button from 'components/Button'
+import Actions from 'enums/Actions'
+
 import close from 'assets/close.svg'
 import tick from 'assets/tick.svg'
 
@@ -21,7 +23,7 @@ const CloseButton = ({ showSuccessTick }: Props) => {
   }, [])
 
   const handleCloseButton = () => {
-    chrome.runtime.sendMessage({ action: 'close' })
+    chrome.runtime.sendMessage({ action: Actions.CLOSE })
     return true
   }
 

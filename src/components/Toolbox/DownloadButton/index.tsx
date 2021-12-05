@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import download from 'assets/download.svg'
 
 import Button from 'components/Button'
+import Actions from 'enums/Actions'
 
 type Props = {
   isInterfaceHidden: boolean
@@ -15,12 +16,12 @@ const DownloadButton = ({
   onCaptureImage,
   onCaptureImageCallback,
 }: Props) => {
-  const [downloadImageOnCapture, setDownloadImageOnCapture] = useState(true)
+  const [captureAction, setCaptureAction] = useState(Actions.DOWNLOAD)
 
   useEffect(() => {
     const handleKeyPressed = (event: KeyboardEvent) => {
       if ((event.ctrlKey || event.metaKey) && event.key === 'c') {
-        setDownloadImageOnCapture(false)
+        setCaptureAction(Actions.CAPTURE)
         onCaptureImage()
       }
     }
@@ -37,7 +38,7 @@ const DownloadButton = ({
 
   const handleCaptureImage = () => {
     chrome.runtime.sendMessage(
-      { action: downloadImageOnCapture ? 'download' : 'capture' },
+      { action: captureAction },
       {},
       async ({ image }) => {
         const data = await fetch(image)
@@ -49,7 +50,7 @@ const DownloadButton = ({
           }),
         ])
 
-        setDownloadImageOnCapture(true)
+        setCaptureAction(Actions.DOWNLOAD)
         onCaptureImageCallback()
       },
     )

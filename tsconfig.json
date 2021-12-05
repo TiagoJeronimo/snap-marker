@@ -18,5 +18,10 @@
     "jsx": "react-jsx"
   },
   "exclude": ["public"],
-  "include": ["src"]
+  "include": ["src"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
 }

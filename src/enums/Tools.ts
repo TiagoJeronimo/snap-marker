@@ -1,6 +1,6 @@
 enum Tools {
-  BRUSH = 'brush',
-  ERASER = 'eraser',
+  BRUSH = 'BRUSH',
+  ERASER = 'ERASER',
 }
 
 export default Tools

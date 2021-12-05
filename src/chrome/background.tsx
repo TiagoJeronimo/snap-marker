@@ -1,3 +1,5 @@
+import Actions from 'enums/Actions'
+
 export {}
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -13,16 +15,16 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.runtime.onMessage.addListener(({ action }, { tab }, sendResponse) => {
   const tabId = tab?.id
 
-  if (action === 'close' && tabId) {
-    chrome.tabs.sendMessage(tabId, { action: 'close' })
+  if (action === Actions.CLOSE && tabId) {
+    chrome.tabs.sendMessage(tabId, { action: Actions.CLOSE })
   }
 
-  if (action === 'capture') {
+  if (action === Actions.CAPTURE) {
     captureImage().then(sendResponse)
     return true
   }
 
-  if (action === 'download') {
+  if (action === Actions.DOWNLOAD) {
     captureImage(true).then(sendResponse)
     return true
   }
@@ -51,7 +53,7 @@ const installContent = (tabId: number) => {
       files: ['./static/js/content.js'],
     },
     () => {
-      chrome.tabs.sendMessage(tabId, { type: 'draw' })
+      chrome.tabs.sendMessage(tabId, { type: Actions.DRAW })
       return
     },
   )

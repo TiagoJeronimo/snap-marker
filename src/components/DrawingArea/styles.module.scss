@@ -1,18 +1,18 @@
 .drawingArea {
   position: absolute;
   top: 0;
-  z-index: 2147483646;
   left: 0;
-}
+  z-index: 2147483646;
 
-.drawingArea__maxSize {
-  text-align: center;
-  text-shadow: 0 3px 8px rgb(0 0 0 / 24%);
-  background-color: rgb(25 130 196);
-  height: 62px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  margin-top: 0;
+  .drawingArea__maxSize {
+    text-align: center;
+    text-shadow: 0 3px 8px rgb(0 0 0 / 24%);
+    background-color: rgb(25 130 196);
+    height: 62px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-top: 0;
+  }
 }

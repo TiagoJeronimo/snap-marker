@@ -121,7 +121,7 @@ const DrawingArea = () => {
   }
 
   return (
-    <>
+    <div className={scss['drawingArea']}>
       <Stage
         width={window.innerWidth}
         height={
@@ -133,7 +133,6 @@ const DrawingArea = () => {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         data-testid="drawingArea"
-        className={scss['drawingArea']}
       >
         <Layer>
           {lines.map((line, index) => (
@@ -153,12 +152,13 @@ const DrawingArea = () => {
           ))}
         </Layer>
       </Stage>
-      {window.innerHeight > MAX_CANVAS_HEIGHT + WARNING_BANNER_HEIGHT && (
+      {document.body.scrollHeight >
+        MAX_CANVAS_HEIGHT + WARNING_BANNER_HEIGHT && (
         <h2 className={scss['drawingArea__maxSize']}>
           UNFORTUNATELY, THIS IS THE CANVAS MAX SIZE
         </h2>
       )}
-    </>
+    </div>
   )
 }
 

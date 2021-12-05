@@ -1,8 +1,8 @@
-const path = require('path')
-const webpack = require('webpack')
-const CopyPlugin = require('copy-webpack-plugin')
+import * as path from 'path'
+import { Configuration } from 'webpack'
+import CopyPlugin from 'copy-webpack-plugin'
 
-module.exports = {
+const config: Configuration = {
   entry: {
     content: './src/chrome/content.tsx',
     background: './src/chrome/background.tsx',
@@ -13,6 +13,13 @@ module.exports = {
       path.resolve(__dirname, './src'),
       path.resolve(__dirname, 'node_modules'),
     ],
+  },
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'public'),
+    },
+    compress: true,
+    port: 3000,
   },
   module: {
     rules: [
@@ -47,9 +54,10 @@ module.exports = {
     filename: 'static/js/[name].js',
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new CopyPlugin({
       patterns: [{ from: 'public', to: '' }],
     }),
   ],
 }
+
+export default config
