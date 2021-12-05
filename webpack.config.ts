@@ -3,6 +3,7 @@ import { Configuration } from 'webpack'
 import CopyPlugin from 'copy-webpack-plugin'
 
 const config: Configuration = {
+  mode: 'production',
   entry: {
     content: './src/chrome/content.tsx',
     background: './src/chrome/background.tsx',
@@ -13,13 +14,6 @@ const config: Configuration = {
       path.resolve(__dirname, './src'),
       path.resolve(__dirname, 'node_modules'),
     ],
-  },
-  devServer: {
-    static: {
-      directory: path.join(__dirname, 'public'),
-    },
-    compress: true,
-    port: 3000,
   },
   module: {
     rules: [

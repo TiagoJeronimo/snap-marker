@@ -3,16 +3,18 @@
   top: 0;
   left: 0;
   z-index: 2147483646;
+  cursor: crosshair;
 
   .drawingArea__maxSize {
     text-align: center;
     text-shadow: 0 3px 8px rgb(0 0 0 / 24%);
-    background-color: rgb(25 130 196);
-    height: 62px;
+    background-color: rgb(25 130 196 / 90%);
+    height: 962px;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     color: white;
     margin-top: 0;
+    padding-top: 32px;
   }
 }

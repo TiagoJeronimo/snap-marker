@@ -3,14 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "classnames": "^2.3.1",
     "konva": "^8.3.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-konva": "^17.0.2-5"
   },
   "scripts": {
-    "serve": "webpack serve --mode development",
     "build": "webpack",
     "test": "jest"
   },
@@ -33,25 +31,21 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.16.0",
-    "@babel/preset-env": "^7.16.4",
-    "@babel/preset-react": "^7.16.0",
-    "@babel/preset-typescript": "^7.16.0",
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/react-hooks": "^7.0.2",
     "@testing-library/user-event": "^13.5.0",
     "@types/chrome": "^0.0.166",
     "@types/copy-webpack-plugin": "^8.0.1",
-    "@types/jest": "^27.0.3",
+    "@types/mini-css-extract-plugin": "^2.4.0",
     "@types/node": "^16.11.11",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
-    "@types/webpack": "^4.41.32",
-    "@types/webpack-dev-server": "^4.5.0",
+    "@types/webpack": "^5.28.0",
     "@typescript-eslint/eslint-plugin": "^5.3.0",
     "@typescript-eslint/parser": "^5.3.0",
     "babel-loader": "^8.2.3",
+    "classnames": "^2.3.1",
     "copy-webpack-plugin": "^10.0.0",
     "css-loader": "^6.5.1",
     "eslint": "^8.4.0",
@@ -72,7 +66,6 @@
     "ts-node": "^10.4.0",
     "typescript": "^4.5.2",
     "webpack": "^5.64.4",
-    "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.6.0"
+    "webpack-cli": "^4.9.1"
   }
 }
