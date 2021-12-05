@@ -24,6 +24,14 @@ const DrawingArea = () => {
 
   const { selectedColor, cleanAll, setCleanAll, tool } = useDrawingBoard()
 
+  const webpageHeight = Math.max(
+    document.body.scrollHeight,
+    document.body.offsetHeight,
+    document.documentElement.clientHeight,
+    document.documentElement.scrollHeight,
+    document.documentElement.offsetHeight,
+  )
+
   useEffect(() => {
     const handleKeyPressed = (event: KeyboardEvent) => {
       if (
@@ -121,13 +129,11 @@ const DrawingArea = () => {
   }
 
   return (
-    <>
+    <div className={scss['drawingArea']}>
       <Stage
-        width={window.innerWidth}
+        width={document.body.clientWidth}
         height={
-          window.innerHeight > MAX_CANVAS_HEIGHT
-            ? MAX_CANVAS_HEIGHT
-            : window.innerHeight
+          webpageHeight > MAX_CANVAS_HEIGHT ? MAX_CANVAS_HEIGHT : webpageHeight
         }
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
@@ -152,12 +158,12 @@ const DrawingArea = () => {
           ))}
         </Layer>
       </Stage>
-      {window.innerHeight > MAX_CANVAS_HEIGHT + WARNING_BANNER_HEIGHT && (
-        <h2 className={scss['drawingArea__maxSize']}>
+      {webpageHeight > MAX_CANVAS_HEIGHT + WARNING_BANNER_HEIGHT && (
+        <h1 className={scss['drawingArea__maxSize']}>
           UNFORTUNATELY, THIS IS THE CANVAS MAX SIZE
-        </h2>
+        </h1>
       )}
-    </>
+    </div>
   )
 }
 

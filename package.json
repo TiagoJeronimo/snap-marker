@@ -3,20 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "classnames": "^2.3.1",
-    "debounce": "^1.2.1",
     "konva": "^8.3.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-konva": "^17.0.2-5",
-    "react-scripts": "4.0.3",
-    "typescript": "^4.5.2"
+    "react-konva": "^17.0.2-5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "INLINE_RUNTIME_CHUNK=false react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "webpack",
+    "test": "jest"
   },
   "eslintConfig": {
     "extends": [
@@ -41,23 +35,37 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/react-hooks": "^7.0.2",
     "@testing-library/user-event": "^13.5.0",
-    "@types/babel__core": "^7.1.16",
-    "@types/chrome": "^0.0.164",
-    "@types/debounce": "^1.2.1",
-    "@types/jest": "^27.0.3",
-    "@types/node": "^16.11.10",
+    "@types/chrome": "^0.0.166",
+    "@types/copy-webpack-plugin": "^8.0.1",
+    "@types/mini-css-extract-plugin": "^2.4.0",
+    "@types/node": "^16.11.11",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
+    "@types/webpack": "^5.28.0",
     "@typescript-eslint/eslint-plugin": "^5.3.0",
     "@typescript-eslint/parser": "^5.3.0",
-    "eslint": "^7.32.0",
+    "babel-loader": "^8.2.3",
+    "classnames": "^2.3.1",
+    "copy-webpack-plugin": "^10.0.0",
+    "css-loader": "^6.5.1",
+    "eslint": "^8.4.0",
     "eslint-config-prettier": "^8.3.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.4.3",
     "prettier": "^2.4.1",
-    "sass": "^1.43.4",
+    "sass": "^1.44.0",
+    "sass-loader": "^12.3.0",
+    "style-loader": "^3.3.1",
     "stylelint": "^14.1.0",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard-scss": "^3.0.0",
     "stylelint-prettier": "^2.0.0",
-    "tslint-plugin-prettier": "^2.3.0"
+    "svg-url-loader": "^7.1.1",
+    "ts-jest": "^27.1.0",
+    "ts-loader": "^9.2.6",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1"
   }
 }

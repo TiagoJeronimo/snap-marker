@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import download from 'assets/download.svg'
 
 import Button from 'components/Button'
+import Actions from 'enums/Actions'
 
 type Props = {
   isInterfaceHidden: boolean
@@ -15,12 +16,12 @@ const DownloadButton = ({
   onCaptureImage,
   onCaptureImageCallback,
 }: Props) => {
-  const [downloadImageOnCapture, setDownloadImageOnCapture] = useState(true)
+  const [captureAction, setCaptureAction] = useState(Actions.DOWNLOAD)
 
   useEffect(() => {
     const handleKeyPressed = (event: KeyboardEvent) => {
       if ((event.ctrlKey || event.metaKey) && event.key === 'c') {
-        setDownloadImageOnCapture(false)
+        setCaptureAction(Actions.CAPTURE)
         onCaptureImage()
       }
     }
@@ -32,38 +33,28 @@ const DownloadButton = ({
   useEffect(() => {
     if (!isInterfaceHidden) return
 
-    captureImage()
+    handleCaptureImage()
   }, [isInterfaceHidden])
 
-  const captureImage = () => {
-    chrome.tabs.captureVisibleTab(
-      null as unknown as number,
-      { format: 'png' },
-      async (image) => {
-        try {
-          const data = await fetch(image)
-          const blob = await data.blob()
+  const handleCaptureImage = () => {
+    chrome.runtime.sendMessage(
+      { action: captureAction },
+      {},
+      async ({ image }) => {
+        const data = await fetch(image)
+        const blob = await data.blob()
 
-          await navigator.clipboard.write([
-            new ClipboardItem({
-              'image/png': blob,
-            }),
-          ])
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            'image/png': blob,
+          }),
+        ])
 
-          if (downloadImageOnCapture) {
-            chrome.downloads.download({
-              filename: 'screenshot.png',
-              url: image,
-            })
-          }
-        } catch (error) {
-          console.error(error)
-        } finally {
-          setDownloadImageOnCapture(true)
-          onCaptureImageCallback()
-        }
+        setCaptureAction(Actions.DOWNLOAD)
+        onCaptureImageCallback()
       },
     )
+    return true
   }
 
   return (
