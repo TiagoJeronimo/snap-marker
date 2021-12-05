@@ -11,9 +11,10 @@ chrome.runtime.onInstalled.addListener(() => {
 })
 
 chrome.runtime.onMessage.addListener(({ action }, { tab }, sendResponse) => {
-  if (action === 'close') {
-    chrome.tabs.sendMessage(tab.id, { action: 'close' })
-    sendResponse({ farewell: 'goodbye' })
+  const tabId = tab?.id
+
+  if (action === 'close' && tabId) {
+    chrome.tabs.sendMessage(tabId, { action: 'close' })
   }
 
   if (action === 'capture') {
@@ -43,7 +44,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   return
 })
 
-const installContent = (tabId) => {
+const installContent = (tabId: number) => {
   chrome.scripting.executeScript(
     {
       target: { tabId },
@@ -51,14 +52,14 @@ const installContent = (tabId) => {
     },
     () => {
       chrome.tabs.sendMessage(tabId, { type: 'draw' })
-      return true
+      return
     },
   )
 }
 
-const captureImage = async (download) => {
+const captureImage = async (download?: boolean) => {
   const image = await chrome.tabs
-    .captureVisibleTab(null, { format: 'png' })
+    .captureVisibleTab(null as unknown as number, { format: 'png' })
     .then((image) => {
       try {
         if (download) {

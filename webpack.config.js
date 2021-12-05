@@ -4,10 +4,9 @@ const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   entry: {
-    content: './src/chrome/content.js',
-    background: './src/chrome/background.js',
+    content: './src/chrome/content.tsx',
+    background: './src/chrome/background.tsx',
   },
-  // mode: "development",
   resolve: {
     extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
     modules: [
@@ -30,18 +29,7 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [
-          // Creates `style` nodes from JS strings
-          'style-loader',
-          // Translates CSS into CommonJS
-          'css-loader',
-          // Compiles Sass to CSS
-          'sass-loader',
-        ],
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.svg$/,

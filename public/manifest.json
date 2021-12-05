@@ -14,21 +14,5 @@
     "service_worker": "./static/js/background.js"
   },
   "action": {},
-  "permissions": [
-    "tabs",
-    "scripting",
-    "contextMenus",
-    "activeTab",
-    "downloads"
-  ],
-  "web_accessible_resources": [
-    {
-      "resources": [
-        "./static/*",
-        "./static/js/content.js",
-        "/static/js/content.js"
-      ],
-      "matches": ["<all_urls>"]
-    }
-  ]
+  "permissions": ["scripting", "contextMenus", "activeTab", "downloads"]
 }
