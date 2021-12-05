@@ -8,7 +8,7 @@ const config: Configuration = {
     background: './src/chrome/background.tsx',
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx', '.ts', '.tsx', '.css', '.scss'],
+    extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
     modules: [
       path.resolve(__dirname, './src'),
       path.resolve(__dirname, 'node_modules'),
