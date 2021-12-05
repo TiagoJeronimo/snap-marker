@@ -4,8 +4,6 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.3.1",
-    "identity-obj-proxy": "^3.0.0",
-    "jest-transform-css": "^3.0.0",
     "konva": "^8.3.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -59,6 +57,7 @@
     "css-loader": "^6.5.1",
     "eslint": "^8.4.0",
     "eslint-config-prettier": "^8.3.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^27.4.3",
     "prettier": "^2.4.1",
     "react-test-renderer": "^17.0.2",
