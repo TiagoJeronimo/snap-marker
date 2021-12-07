@@ -1,6 +1,6 @@
 # Snap Marker
 
-[Snap Marker](https://github.com/facebook/create-react-app) is a minimalist extension to draw, highlight text, and point to stuff on any webpage.
+[Snap Marker](https://chrome.google.com/webstore/detail/snap-marker/dmbihikakflbaipddokldeaobgmfhicl?hl=en-GB&authuser=0) is a minimalist extension to draw, highlight text, and point to stuff on any webpage.
 When you're happy with your scribbles, you can download the image or copy it using the shortcut Ctrl+C (Command-C on mac), the image will go directly to your clipboard.
 
 <img width="1460" alt="userlmn_867ad361d43ee4d1c51c70641c9772d8" src="https://user-images.githubusercontent.com/5767860/143781578-76272f4e-067a-4ba4-9c5c-ccb43eedc152.png">
