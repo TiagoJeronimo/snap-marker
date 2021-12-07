@@ -1,9 +1,36 @@
 {
   "extends": [
     "stylelint-config-standard-scss",
-    "stylelint-prettier/recommended"
+    "stylelint-prettier/recommended",
+    "stylelint-order"
   ],
+  "plugins": ["stylelint-order"],
   "rules": {
-    "selector-class-pattern": null
+    "selector-class-pattern": null,
+    "order/order": [["custom-properties", "declarations"]],
+    "order/properties-order": [
+      "position",
+      "top",
+      "bottom",
+      "right",
+      "left",
+      "z-index",
+      "display",
+      "float",
+      "width",
+      "height",
+      "margin",
+      "padding",
+      "color",
+      "font",
+      "line-height",
+      "text-align",
+      "background-color",
+      "border",
+      "border-radius",
+      "opacity",
+      "transition",
+      "user-select"
+    ]
   }
 }
