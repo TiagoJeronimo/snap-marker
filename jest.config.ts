@@ -6,8 +6,10 @@ const config: Config.InitialOptions = {
   verbose: true,
   moduleNameMapper: {
     '.scss$': 'identity-obj-proxy',
+    '.+\\.(svg|png|jpg)$': 'identity-obj-proxy',
   },
   setupFilesAfterEnv: ['./src/setupTests.ts'],
+  modulePaths: ['<rootDir>', 'src/'],
 }
 
 export default config
