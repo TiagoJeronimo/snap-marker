@@ -1,12 +1,12 @@
 .toolbox {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 2147483647;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   background: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 2147483647;
   pointer-events: none;
 }
 
@@ -16,11 +16,11 @@
 
 .toolbox__tools {
   display: flex;
+  margin: auto;
+  padding: 6px;
+  background-color: white;
   align-items: center;
   gap: 8px;
-  margin: auto;
-  background-color: white;
-  padding: 6px;
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
   box-shadow: rgb(0 0 0 / 24%) 0 3px 8px;

@@ -1,12 +1,12 @@
 .button {
   display: flex;
-  border: none;
-  border-radius: 50%;
   width: 32px;
   height: 32px;
+  background-color: #e7e7e7;
+  border: none;
+  border-radius: 50%;
   align-items: center;
   justify-content: center;
   pointer-events: all;
   cursor: pointer;
-  background-color: #e7e7e7;
 }
